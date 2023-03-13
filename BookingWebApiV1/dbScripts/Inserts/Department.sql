@@ -1,0 +1,2 @@
+exec dbo.InsertDepartment @DepartmentName = N'ZBC', @Address = N'Ahorn allé 3', @City = N'Ringsted', @Zipcode = N'4100';
+exec dbo.InsertDepartment @DepartmentName = N'Aarhus Universitet', @Address = N'Nordre Ringade 1', @City = N'Århus', @Zipcode = '8000';

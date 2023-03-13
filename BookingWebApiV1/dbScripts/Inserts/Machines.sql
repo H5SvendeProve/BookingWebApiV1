@@ -1,0 +1,2 @@
+EXEC InsertMachine @MachineManufacturer = N'Samsung', @ModelName = N'Vaskemaskine', @EffectKWh = 24;
+EXEC InsertMachine @MachineManufacturer = N'Samsung', @ModelName = N'Tørretumbler', @EffectKWh = 13;

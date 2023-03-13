@@ -1,0 +1,27 @@
+
+J
+BookingWebApiV1/Program.cs,e\1\e1463207b896d79eb486ebf2f79ef09771577baa
+\
+,BookingWebApiV1/appsettings.Development.json,e\2\e225406522c30b27aec77ad0204397059f8971f3
+P
+ BookingWebApiV1/appsettings.json,1\e\1ef1fd62ffaaa07ae1fc46f0a44cc38597709b27
+^
+.BookingWebApiV1/Properties/launchSettings.json,0\c\0c12fac8035e06cc20a2a9e5809095ca0de57cc4
+O
+BookingWebApiV1.Tests/Usings.cs,6\8\683ff4c35094dc2f7a70a8bec5bc6afffb254ad7
+[
++BookingWebApiV1.Tests/Constants/Constant.cs,1\3\13cc2d86f6a81529bd124876cccb09e3febd197e
+`
+0BookingWebApiV1/Controllers/AngularController.cs,8\7\878534a0aafd86f86854397cfead4c5edfeca586
+j
+:BookingWebApiV1.Tests/Controller/AngularControllerTests.cs,5\d\5d2e77186001ae742bddc078c84bea11dd5a3e32
+s
+CBookingWebApiV1.Tests/Service/AngularService/AngularServiceTests.cs,2\a\2a874086486d94189026a930bdb066fdaef06874
+o
+?BookingWebApiV1.Tests/Service/LoginService/LoginServiceTests.cs,5\d\5d55cc6856b2666c35e7a709e3387be77689a5b8
+Å
+QBookingWebApiV1.Tests/Service/WashingMachineService/WashingMachineServiceTests.cs,0\5\0555f448087c5f7e96b93968e40edbdca731f809
+j
+:BookingWebApiV1/Services/AngularService/IAngularService.cs,7\3\73d32d28aafc9ab4d572723697489ab7c31f89f7
+i
+9BookingWebApiV1/Services/AngularService/AngularService.cs,c\9\c9595653d2630aca293178f72c1db68fa08d61b9
