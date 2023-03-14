@@ -1,15 +1,13 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using BookingWebApiV1.Logging;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
 using BookingWebApiV1.Utils;
-using static BookingWebApiV1.Database.DataTableExtension;
-using ILogger = BookingWebApiV1.Logging.ILogger;
+using static BookingWebApiV1.Database.DataTableToDTOConverter;
 
 namespace BookingWebApiV1.Database;
 
-public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseContext
+public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseContext
 
 {
     private readonly string dbScriptsPath = SystemUtil.GetRootPath + @"\dbScripts";
@@ -108,9 +106,13 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             }
         }
 
-        catch (Exception e)
+        catch (SqlException sqlException)
         {
-            throw e;
+            switch (sqlException.Number)
+            {
+                case 18456:
+                    break;
+            }
         }
 
         finally
@@ -252,7 +254,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
     {
         var sqlParameters = ConvertDtoToSqlParameters(bookingDTO, "BookingId");
 
-        var insertResult = await ExecuteStoredProcedureAsync("InsertBooking", sqlParameters);
+        var insertResult = await ExecuteStoredProcedureGetListResultAsync("InsertBooking", sqlParameters);
 
         var bookingNumber = ConvertDataTableToBookingNumber(insertResult);
 
@@ -270,7 +272,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@ModelName", bookingDTO.ModelName)
         };
 
-        var result = await ExecuteStoredProcedureAsync("GetMachineProgram ", sqlParameters);
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetMachineProgram ", sqlParameters);
 
         return ConvertDataTableToBookingMachineProgramDTO(result);
     }
@@ -283,9 +285,9 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@UserName", bookingDTO.Username)
         };
 
-        var result = await ExecuteStoredProcedureAsync("GetElectricityPrice", sqlParameters);
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetElectricityPrice", sqlParameters);
 
-        return ConvertDataTableToBookingElectricityPriceDTO(result);
+        return ConvertDataTableToBookingElectricityPriceList(result);
     }
 
     public async Task<bool> InsertNewRfidCard(RfidCardDTO rfidCardDTO)
@@ -304,7 +306,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@RfidCardId", rfidCardId)
         };
 
-        var result = await ExecuteStoredProcedureAsync("GetRfidCard", sqlParameters);
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetRfidCard", sqlParameters);
 
         var rfidCard = ConvertDataTableToRfidCardDTO(result);
 
@@ -318,7 +320,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@RfidCardId", rfidCardId)
         };
 
-        var result = await ExecuteStoredProcedureAsync("GetRfidCard", sqlParameters);
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetRfidCard", sqlParameters);
 
         return ConvertDataTableToRfidCardDTO(result);
     }
@@ -331,7 +333,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@ApiKey", apiKey)
         };
         
-        var dbResult = await ExecuteStoredProcedureAndGetResultAsync("GetMasterArduino",sqlParameters);
+        var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("GetMasterArduino",sqlParameters);
 
         return dbResult != null ? ConvertDataRowToMasterArduinoDTO(dbResult) : new MasterArduinoDTO();
     }
@@ -346,7 +348,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
         };
 
 
-        var result = await ExecuteStoredProcedureAsync("GetBookingFromRfidCard", sqlParameters);
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetBookingFromRfidCard", sqlParameters);
 
         return ConvertDataTableToBookingDTOs(result);
     }
@@ -357,7 +359,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
 
         var sqlParameters = ConvertDtoToSqlParameters(masterArduinoDTO);
 
-        var result = await ExecuteStoredProcedureAndGetResultAsync("InsertMasterArduino", sqlParameters);
+        var result = await ExecuteStoredProcedureAndGetSingleResultAsync("InsertMasterArduino", sqlParameters);
 
         return result != null ? ConvertDataRowToMasterArduinoDTO(result) : new MasterArduinoDTO();
     }
@@ -366,7 +368,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
     {
         var sqlParameters = ConvertDtoToSqlParameters(arduinoMachineDTO);
 
-        var dbResult = await ExecuteStoredProcedureAndGetResultAsync("InsertArduinoMachine", sqlParameters);
+        var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("InsertArduinoMachine", sqlParameters);
 
         return dbResult != null ? ConvertDataRowToArduinoMachineDTO(dbResult) : new ArduinoMachineDTO();
     }
@@ -378,8 +380,20 @@ public class DatabaseContext : DatabaseConnection.DatabaseConnection, IDatabaseC
             new("@arduinoMasterId", arduinoMasterId)
         };
 
-        var dbResult = await ExecuteStoredProcedureAsync("GetMachinesByArduinoMasterId", sqlParameters);
+        var dbResult = await ExecuteStoredProcedureGetListResultAsync("GetMachinesByArduinoMasterId", sqlParameters);
 
         return ConvertDataTableToArduinoMachineList(dbResult);
+    }
+
+    public async Task<ProgramResultDTO> GetProgram(BookingDTO bookingDTO)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new ("@ProgramId", bookingDTO.ProgramId)
+        };
+
+        var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("GetProgram", sqlParameters);
+
+        return dbResult != null ? ConvertDataRowToProgramDTO(dbResult) : new ProgramResultDTO();
     }
 }

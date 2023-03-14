@@ -28,7 +28,7 @@ namespace BookingWebApiV1.Controllers
                 return Unauthorized("username or password is incorrect");
             }
 
-            string token = await LoginService.GenerateToken(user.Username);
+            string token = await LoginService.GenerateJwtToken(user.Username);
 
             return Ok(new { token });
         }

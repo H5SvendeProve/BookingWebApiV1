@@ -65,8 +65,10 @@ namespace BookingWebApiV1.Controllers
             {
                 return BadRequest("error on inserting booing");
             }
+
+            var programData = await WashingMachineService.GetBookingProgram(booking);
             
-            return Ok(booking);
+            return Ok(programData);
         }
 
        

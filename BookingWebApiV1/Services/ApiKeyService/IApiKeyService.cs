@@ -2,5 +2,5 @@
 
 public interface IApiKeyService
 {
-    Task<bool> IsValidApiKey(string? masterArduinoId, string? apiKey);
+    Task<bool> ValidateApiKey(string? masterArduinoId, string? apiKey);
 }

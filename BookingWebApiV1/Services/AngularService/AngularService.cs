@@ -2,10 +2,9 @@
 using BookingWebApiV1.Api.Requests;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Database;
-using BookingWebApiV1.Logging;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
-using ILogger = BookingWebApiV1.Logging.ILogger;
+
 
 namespace BookingWebApiV1.Services.AngularService;
 
@@ -14,16 +13,13 @@ public class AngularService : IAngularService
     private IDatabaseContext DatabaseContext { get; }
     private IJwtProvider JwtProvider { get; }
     private IRequestMapper RequestMapper { get; }
-    
-    private ILogger Logger { get; }
 
     public AngularService(IDatabaseContext databaseContext, IJwtProvider jwtProvider,
-        IRequestMapper requestMapper, ILogger logger)
+        IRequestMapper requestMapper)
     {
         DatabaseContext = databaseContext;
         JwtProvider = jwtProvider;
         RequestMapper = requestMapper;
-        Logger = logger;
     }
 
     public async Task<List<ElectricityPriceDTO>> GetPrices()
@@ -88,8 +84,6 @@ public class AngularService : IAngularService
     {
         var bookingDTO = RequestMapper.MapRequestToDTO(createNewBookingRequest);
         
-        Logger.LogMessage(LogType.Info, $"mapped request");
-
         var electricityPrices = await DatabaseContext.GetElectricityPricesBasedOnBooking(bookingDTO);
 
         var potentialElectricityPrice = GetPrice(electricityPrices, bookingDTO);
@@ -104,8 +98,6 @@ public class AngularService : IAngularService
 
         bookingDTO.EndTime = bookingDTO.StartTime.AddMinutes(bookingProgramData.ProgramRunTimeMinutes);
         
-        Logger.LogMessage(LogType.Info, $"parsing booking to databaseContext");
-
         return await DatabaseContext.InsertNewBooking(bookingDTO);
     }
 

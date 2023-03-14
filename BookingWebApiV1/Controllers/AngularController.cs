@@ -1,11 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-using BookingWebApiV1.Api.Requests;
-using BookingWebApiV1.Logging;
+﻿using BookingWebApiV1.Api.Requests;
 using BookingWebApiV1.Services.AngularService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ILogger = BookingWebApiV1.Logging.ILogger;
+
 
 namespace BookingWebApiV1.Controllers
 {
@@ -14,30 +12,12 @@ namespace BookingWebApiV1.Controllers
     public class AngularController : ControllerBase
     {
         private IAngularService AngularService { get; }
-        private ILogger Logger { get; }
 
-
-        public AngularController(IAngularService angularService, ILogger logger)
+        public AngularController(IAngularService angularService)
         {
             AngularService = angularService;
-            Logger = logger;
         }
-
-        [Authorize]
-        [HttpGet("getElectricityPrices")]
-        public async Task<IActionResult> GetElectricityPrices()
-        {
-            var prices = await AngularService.GetPrices();
-
-            if (prices.Any())
-            {
-                return Ok(prices);
-            }
-
-
-            return BadRequest("theres no prices");
-        }
-
+        
         [HttpGet("validateToken")]
         [AllowAnonymous]
         public async Task<IActionResult> ValidateToken()
@@ -59,9 +39,25 @@ namespace BookingWebApiV1.Controllers
             return Ok(isValid);
         }
 
+        [Authorize]
+        [HttpGet("getElectricityPrices")]
+        public async Task<IActionResult> GetElectricityPrices()
+        {
+            var prices = await AngularService.GetPrices();
+
+            if (prices.Any())
+            {
+                return Ok(prices);
+            }
+
+
+            return BadRequest("theres no prices");
+        }
+
+      
+
         [HttpPost("createNewMachine")]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> CreateNewMachine([FromBody] CreateNewMachineRequest createNewMachineRequest)
         {
             var isInserted = await AngularService.CreateNewMachine(createNewMachineRequest);
@@ -74,10 +70,11 @@ namespace BookingWebApiV1.Controllers
             return Created("result", createNewMachineRequest);
         }
 
+        [Authorize]
         [HttpPost("createNewBooking")]
         public async Task<IActionResult> CreateNewBooking([FromBody] CreateNewBookingRequest newBookingRequest)
         {
-            Logger.LogMessage(LogType.Info, $"attempting to create new booking");
+           
             var newBooking = await AngularService.CreateNewBooking(newBookingRequest);
 
             if (newBooking.BookingId < 1)
@@ -85,11 +82,10 @@ namespace BookingWebApiV1.Controllers
                 return NotFound("booking is not presented in the database");
             }
             
-            Logger.LogMessage(LogType.Info, $"new booking created with booking number {newBooking.BookingId}");
-
             return Created("booking", newBooking);
         }
 
+        [Authorize]
         [HttpPost("createNewRfidCard")]
         public async Task<IActionResult> CreateNewRfidCard([FromBody] CreateNewRfidCardRequest rfidCardRequest)
         {
@@ -103,6 +99,7 @@ namespace BookingWebApiV1.Controllers
             return Created("result", rfidCreated);
         }
 
+        [Authorize]
         [HttpPost("createNewArduinoMaster")]
         public async Task<IActionResult> CreateNewArduinoMaster(CreateMasterArduinoRequest createMasterArduinoRequest)
         {
@@ -116,6 +113,7 @@ namespace BookingWebApiV1.Controllers
             return Created("masterArduino", result);
         }
 
+        [Authorize]
         [HttpPost("createNewArduinoMachine")]
         public async Task<IActionResult> CreateNewArduinoMachine(CreateArduinoMachineRequest createArduinoMachineRequest)
         {
@@ -129,6 +127,7 @@ namespace BookingWebApiV1.Controllers
             return Created("ArduinoMachine",result);
         }
 
+        [Authorize]
         [HttpGet("getMachinesByArduinoMasterId")]
         public async Task<IActionResult> GetMachinesByArduinoMasterId([FromQuery]string arduinoMasterId)
         {

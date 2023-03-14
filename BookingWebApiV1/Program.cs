@@ -2,14 +2,12 @@ using BookingWebApiV1.Api.Mappers;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Authentication.ApiKey;
 using BookingWebApiV1.Database;
-using BookingWebApiV1.Logging;
 using BookingWebApiV1.Services.AngularService;
 using BookingWebApiV1.Services.ApiKeyService;
 using BookingWebApiV1.Services.LoginService;
 using BookingWebApiV1.Services.WashingMachineService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using ILogger = BookingWebApiV1.Logging.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,19 +28,19 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
+            new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
+                Reference = new OpenApiReference
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type=ReferenceType.SecurityScheme,
-                        Id="Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            }
-        });
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
 builder.Services.AddCors(options =>
@@ -63,7 +61,6 @@ builder.Services.AddScoped<IApiKeyService, ApiKeyService>();
 builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 builder.Services.AddSingleton<IRequestMapper, RequestMapper>();
-builder.Services.AddSingleton<ILogger, Logger>();
 
 //var connectionString = builder.Configuration.GetConnectionString("MkConnection");
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -93,7 +90,7 @@ app.UseRouting();
 
 app.UseCors("VaskeriServerPolicy");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 app.UseAuthentication();

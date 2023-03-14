@@ -1,7 +1,6 @@
 ﻿using BookingWebApiV1.Api.Requests;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
-
 namespace BookingWebApiV1.Database;
 
 public interface IDatabaseContext
@@ -34,4 +33,5 @@ public interface IDatabaseContext
 
     Task<ArduinoMachineDTO> InsertNewArduinoMachine(ArduinoMachineDTO arduinoMachineDTO);
     Task<List<ArduinoMachineDTO>> GetMachinesByArduinoMasterId(string arduinoMasterId);
+    Task<ProgramResultDTO> GetProgram(BookingDTO bookingDTO);
 }

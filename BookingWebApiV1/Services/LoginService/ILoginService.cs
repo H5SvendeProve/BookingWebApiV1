@@ -9,5 +9,5 @@ public interface ILoginService
     public Task<bool> Logout(string username);
     public Task<bool> RegisterNewUser(CreateNewUserRequest userRequest);
     public Task<bool> Delete(UserDTO user);
-    public Task<string> GenerateToken(string username);
+    public Task<string> GenerateJwtToken(string username);
 }

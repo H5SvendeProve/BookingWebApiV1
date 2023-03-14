@@ -1,0 +1,52 @@
+\\appsrv01\BookingWebApi\BookingWebApiV1.exe
+\\appsrv01\BookingWebApi\appsettings.Development.json
+\\appsrv01\BookingWebApi\appsettings.json
+\\appsrv01\BookingWebApi\dbscripts\database\1. ElectricityPrices.sql
+\\appsrv01\BookingWebApi\dbscripts\database\10. Bookings.sql
+\\appsrv01\BookingWebApi\dbscripts\database\11. RfidCards.sql
+\\appsrv01\BookingWebApi\dbscripts\database\2. Departments.sql
+\\appsrv01\BookingWebApi\dbscripts\database\3. DepartmentElectricityPrices.sql
+\\appsrv01\BookingWebApi\dbscripts\database\4. Users.sql
+\\appsrv01\BookingWebApi\dbscripts\database\5. MasterArduinos.sql
+\\appsrv01\BookingWebApi\dbscripts\database\6. Machines.sql
+\\appsrv01\BookingWebApi\dbscripts\database\7. ArduinoMachines.sql
+\\appsrv01\BookingWebApi\dbscripts\database\8. Programs.sql
+\\appsrv01\BookingWebApi\dbscripts\database\9. MachinePrograms.sql
+\\appsrv01\BookingWebApi\dbscripts\Inserts\Department.sql
+\\appsrv01\BookingWebApi\dbscripts\Inserts\MachinePrograms.sql
+\\appsrv01\BookingWebApi\dbscripts\Inserts\Machines.sql
+\\appsrv01\BookingWebApi\dbscripts\Inserts\Programs.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\ArduinoMachine.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Bookings.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\DepartmentElectricityPrices.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Departments.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\ElectricityPrices.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Machine.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\MachinePrograms.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\MasterArduino.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Program.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Rfidcards.sql
+\\appsrv01\BookingWebApi\dbscripts\stored procedures\Users.sql
+\\appsrv01\BookingWebApi\dbscripts\Trigger\Trigger_insertIntoDepartmentElectricityPrices.sql
+\\appsrv01\BookingWebApi\BookingWebApiV1.dll
+\\appsrv01\BookingWebApi\BookingWebApiV1.deps.json
+\\appsrv01\BookingWebApi\BookingWebApiV1.runtimeconfig.json
+\\appsrv01\BookingWebApi\BookingWebApiV1.pdb
+\\appsrv01\BookingWebApi\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.Abstractions.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.JsonWebTokens.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.Logging.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.Protocols.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+\\appsrv01\BookingWebApi\Microsoft.IdentityModel.Tokens.dll
+\\appsrv01\BookingWebApi\Microsoft.OpenApi.dll
+\\appsrv01\BookingWebApi\Swashbuckle.AspNetCore.Swagger.dll
+\\appsrv01\BookingWebApi\Swashbuckle.AspNetCore.SwaggerGen.dll
+\\appsrv01\BookingWebApi\Swashbuckle.AspNetCore.SwaggerUI.dll
+\\appsrv01\BookingWebApi\System.Data.SqlClient.dll
+\\appsrv01\BookingWebApi\System.IdentityModel.Tokens.Jwt.dll
+\\appsrv01\BookingWebApi\runtimes\win-arm64\native\sni.dll
+\\appsrv01\BookingWebApi\runtimes\win-x64\native\sni.dll
+\\appsrv01\BookingWebApi\runtimes\win-x86\native\sni.dll
+\\appsrv01\BookingWebApi\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+\\appsrv01\BookingWebApi\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

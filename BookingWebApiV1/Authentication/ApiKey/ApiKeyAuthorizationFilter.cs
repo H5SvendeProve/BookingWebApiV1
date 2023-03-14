@@ -14,7 +14,6 @@ public class ApiKeyAuthorizationFilter : IAsyncAuthorizationFilter
     {
         ApiKeyService = apiKeyService;
     }
-    // ||!context.HttpContext.Request.Headers.TryGetValue("X-MasterArduinoId-Id", out var masterArduinoHeader))
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         StringValues masterArduino = string.Empty;
@@ -32,27 +31,27 @@ public class ApiKeyAuthorizationFilter : IAsyncAuthorizationFilter
 
             if (masterArduino.Count == 0)
             { 
-                context.Result = new UnauthorizedObjectResult("ArduinoMasterId in header X-MasterArduinoId-Id is missing");
+                context.Result = new UnauthorizedObjectResult("ArduinoMasterId in header X-MasterArduinoId is missing");
                 return;
             }
         }
         
 
-        bool isValid = await ValidApiKey(masterArduino, apiKey);
+        bool isValid = await ValidateApiKey(masterArduino, apiKey);
 
         if (!isValid)
         {
-            context.Result = new UnauthorizedObjectResult("API key is not valid");
+            context.Result = new UnauthorizedObjectResult("API key or masterArduinoId is not matching");
         }
     }
     
-    private async Task<bool> ValidApiKey(string? masterArduinoIdValue, string? apiKeyValue)
+    private async Task<bool> ValidateApiKey(string? masterArduinoIdValue, string? apiKeyValue)
     {
         if (apiKeyValue.IsNullOrEmpty() || masterArduinoIdValue.IsNullOrEmpty())
         {
             return false;
         }
             
-        return await ApiKeyService.IsValidApiKey(masterArduinoIdValue, apiKeyValue);
+        return await ApiKeyService.ValidateApiKey(masterArduinoIdValue, apiKeyValue);
     }
 }

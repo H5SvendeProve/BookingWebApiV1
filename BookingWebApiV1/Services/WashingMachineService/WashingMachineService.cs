@@ -1,6 +1,7 @@
 ﻿using BookingWebApiV1.Api.Mappers;
 using BookingWebApiV1.Database;
 using BookingWebApiV1.Models.DatabaseDTOs;
+using BookingWebApiV1.Models.DatabaseResultDTOs;
 
 namespace BookingWebApiV1.Services.WashingMachineService;
 
@@ -29,6 +30,18 @@ public class WashingMachineService : IWashingMachineService
         var bookingsFromDb = await DatabaseContext.GetBookedBookingBasedOnRfidCard(rfidCard);
 
         return bookingsFromDb.First();
+    }
+
+    public async Task<ProgramResultDTO> GetBookingProgram(BookingDTO bookingDTO)
+    {
+        if (bookingDTO.BookingId < 1)
+        {
+            // handle
+        }
+
+        var program = await DatabaseContext.GetProgram(bookingDTO);
+
+        return program;
     }
 
     public async Task<bool> RfidCardExists(string rfidCardId)

@@ -72,7 +72,7 @@ public class LoginService : ILoginService
         throw new System.NotImplementedException();
     }
 
-    public async Task<string> GenerateToken(string username)
+    public async Task<string> GenerateJwtToken(string username)
     {
         var token = await JwtProvider.GenerateNewToken(username);
 

@@ -1,0 +1,2 @@
+exec InsertMachineProgram @MachineManufacturer = N'Samsung', @ModelName = N'Vaskemaskine', @ProgramName = N'Koge', @ProgramRunTimeMinutes = 180;
+exec InsertMachineProgram @MachineManufacturer = N'Samsung', @ModelName = N'Tørretumbler', @ProgramName = N'Tørt', @ProgramRunTimeMinutes = 240;

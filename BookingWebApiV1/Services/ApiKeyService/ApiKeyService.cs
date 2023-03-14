@@ -11,7 +11,7 @@ public class ApiKeyService : IApiKeyService
         DatabaseContext = databaseContext;
     }
     
-    public async Task<bool> IsValidApiKey(string? masterArduinoId, string? apiKey)
+    public async Task<bool> ValidateApiKey(string? masterArduinoId, string? apiKey)
     {
         var dbResult = await DatabaseContext.GetMasterArduino(masterArduinoId, apiKey);
 

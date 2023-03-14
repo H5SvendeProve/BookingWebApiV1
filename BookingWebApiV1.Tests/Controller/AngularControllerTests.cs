@@ -1,27 +1,22 @@
 ﻿using BookingWebApiV1.Controllers;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Services.AngularService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using ILogger = BookingWebApiV1.Logging.ILogger;
+
 
 namespace BookingWebApiV1.Tests.Controller;
 
 public class AngularControllerTests
 {
     private readonly Mock<IAngularService> angularServiceMock;
-    private readonly Mock<ILogger> loggerMock;
     private readonly AngularController controller;
 
     public AngularControllerTests()
     {
         angularServiceMock = new Mock<IAngularService>();
-        loggerMock = new Mock<ILogger>(new Mock<ILogger>());
 
-        controller = new AngularController(
-            angularService: angularServiceMock.Object,
-            logger: loggerMock.Object);
+        controller = new AngularController(angularServiceMock.Object);
     }
 
     [Fact]
@@ -75,46 +70,5 @@ public class AngularControllerTests
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
         Assert.Equal("theres no prices", badRequestResult.Value);
-    }
-
-    [Fact]
-    public async Task ValidateToken_ReturnsBadRequest_WhenTokenIsNotProvided()
-    {
-        // Arrange
-        var httpContext = new DefaultHttpContext();
-        var controllerContext = new ControllerContext()
-        {
-            HttpContext = httpContext
-        };
-        controller.ControllerContext = controllerContext;
-
-        // Act
-        var result = await controller.ValidateToken();
-
-        // Assert
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("missing jwt token", badRequestResult.Value);
-    }
-
-    [Fact]
-    public async Task ValidateToken_ReturnsUnauthorized_WhenTokenIsInvalid()
-    {
-        // Arrange
-        var token = "invalid-token";
-        angularServiceMock.Setup(s => s.ValidateToken(token)).ReturnsAsync(false);
-        var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["Authorization"] = "Bearer " + token;
-        var controllerContext = new ControllerContext
-        {
-            HttpContext = httpContext
-        };
-        controller.ControllerContext = controllerContext;
-
-        // Act
-        var result = await controller.ValidateToken();
-
-        // Assert
-        var unauthorizedResult = Assert.IsType<UnauthorizedObjectResult>(result);
-        Assert.Equal("token is invalid or expired", unauthorizedResult.Value);
     }
 }
