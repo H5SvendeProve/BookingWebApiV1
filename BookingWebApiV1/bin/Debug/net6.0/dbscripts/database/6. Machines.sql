@@ -3,5 +3,6 @@ CREATE TABLE Machines (
   MachineManufacturer nvarchar(64) NOT NULL,
   ModelName nvarchar(64) NOT NULL,
   EffectKWh float NOT NULL,
+  MachineType nvarchar(64) NOT NULL
   CONSTRAINT PK_Machines PRIMARY KEY (MachineManufacturer, ModelName)
 );

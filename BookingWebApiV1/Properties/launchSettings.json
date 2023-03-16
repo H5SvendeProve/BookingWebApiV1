@@ -12,9 +12,9 @@
     "BookingWebApiV1": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7049;http://localhost:5254;https://192.168.1.103:7049;http://192.168.1.103:5254",
+      "applicationUrl": "https://localhost:7049;http://localhost:5254",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

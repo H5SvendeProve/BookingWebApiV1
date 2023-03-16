@@ -1,12 +1,10 @@
-﻿using BookingWebApiV1.Api.Requests;
+﻿using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Models.DatabaseDTOs;
 
 namespace BookingWebApiV1.Services.AngularService;
 
 public interface IAngularService
 {
-    Task<List<ElectricityPriceDTO>> GetPrices();
-
     Task<bool> CreateNewMachine(CreateNewMachineRequest createNewMachineRequest);
 
     Task<BookingDTO> CreateNewBooking(CreateNewBookingRequest createNewBookingRequest);
@@ -18,4 +16,5 @@ public interface IAngularService
     Task<MasterArduinoDTO> CreateNewMasterArduino(CreateMasterArduinoRequest createMasterArduinoRequest);
     Task<ArduinoMachineDTO> CreateNewArduinoMachine(CreateArduinoMachineRequest createArduinoMachineRequest);
     Task<List<ArduinoMachineDTO>> GetMachinesByArduinoMasterId(string arduinoMasterId);
+    Task<List<AvailableBookingTimeDTO>> GetAvailableBookingTimes(string username);
 }

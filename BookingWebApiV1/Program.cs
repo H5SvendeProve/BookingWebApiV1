@@ -1,6 +1,7 @@
 using BookingWebApiV1.Api.Mappers;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Authentication.ApiKey;
+using BookingWebApiV1.Configurations;
 using BookingWebApiV1.Database;
 using BookingWebApiV1.Services.AngularService;
 using BookingWebApiV1.Services.ApiKeyService;
@@ -98,5 +99,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.Run();

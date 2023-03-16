@@ -1,11 +1,11 @@
-﻿using BookingWebApiV1.Api.Requests;
-using BookingWebApiV1.Models.DatabaseDTOs;
+﻿using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
+
 namespace BookingWebApiV1.Database;
 
 public interface IDatabaseContext
 {
-    Task<List<ElectricityPriceDTO>> GetElectricityPrices();
+    Task<List<ElectricityPriceDTO>> GetElectricityPrices(string username);
     Task<UserDTO> GetUserWithGivenUsername(string username);
     Task<bool> UserExists(string username);
 
@@ -15,9 +15,11 @@ public interface IDatabaseContext
 
     Task<BookingDTO> InsertNewBooking(BookingDTO bookingDTO);
 
-    Task<BookingMachineProgramDTO> GetBookingMachineProgramFromBooking(BookingDTO bookingDTO);
+    Task<List<AvailableBookingTimeDTO>> GetAvailableBookingTimesInDepartment(string username);
 
-    Task<List<BookingElectricityPriceDTO>> GetElectricityPricesBasedOnBooking(BookingDTO bookingDTO);
+    Task<bool> UpdateAvailableBookingToTaken(AvailableBookingTimeDTO bookingTimeDTO);
+
+    Task<BookingMachineProgramDTO> GetBookingMachineProgramFromBooking(BookingDTO bookingDTO);
 
     Task<bool> InsertNewRfidCard(RfidCardDTO rfidCardDTO);
 
@@ -34,4 +36,13 @@ public interface IDatabaseContext
     Task<ArduinoMachineDTO> InsertNewArduinoMachine(ArduinoMachineDTO arduinoMachineDTO);
     Task<List<ArduinoMachineDTO>> GetMachinesByArduinoMasterId(string arduinoMasterId);
     Task<ProgramResultDTO> GetProgram(BookingDTO bookingDTO);
+
+    Task<bool> InsertNewDepartment(DepartmentDTO newDepartment);
+    Task<bool> DeleteUser(UserDTO userDTO);
+    Task<bool> insertMachineProgram(MachineProgramDTO machineProgramDTO);
+    Task<bool> InsertElectricityPrice(ElectricityPriceDTO electricityPriceDTO);
+    Task<bool> InsertDepartmentElectricityPrice(DepartmentElectricityPricesDTO departmentElectricityPrice);
+
+    Task<bool> InsertProgram(ProgramDTO programDTO);
+    Task InsertAvailableBookingTimes();
 }

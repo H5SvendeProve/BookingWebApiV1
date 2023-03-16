@@ -6,4 +6,6 @@ public class ProgramResultDTO
     public int ProgramRunTimeMinutes { get; set; }
     public string MachineManufacturer { get; set; }
     public string ModelName { get; set; }
+    
+    public string MachineType { get; set; }
 }

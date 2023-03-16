@@ -42,13 +42,23 @@ end
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetAllElectricityPrices]') AND type in (N'P', N'PC'))
 BEGIN
 EXEC('
-create procedure GetAllElectricityPrices
+ALTER Procedure [dbo].[GetElectricityPrice]
+
+	@Username nvarchar(16)
 
 as
-    begin
-    set nocount on;
+begin
 
-    select DKKPerKwh, EURPerKWh, Exr, TimeStart, TimeEnd, Location from ElectricityPrices;
+	set NOCOUNT on;
 
-    end;')
+	SELECT ep.Exr, ep.TimeStart, ep.TimeEnd,
+           CASE WHEN d.ZipCode > 4999 THEN ''WestDenmark''
+                ELSE ''EastDenmark''
+           END AS Location
+    FROM Departments d
+    INNER JOIN ElectricityPrices ep ON 
+        (CASE WHEN d.ZipCode > 4999 THEN ''WestDenmark'' ELSE ''EastDenmark'' END) = ep.Location
+	where d.DepartmentName in (select top 1 departmentname from users where username =@Username) order by TimeStart desc, TimeEnd desc
+
+end;')
 end

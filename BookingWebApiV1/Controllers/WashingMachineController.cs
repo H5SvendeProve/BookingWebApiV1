@@ -1,4 +1,5 @@
 ﻿using BookingWebApiV1.Authentication.ApiKey;
+using BookingWebApiV1.Models.DatabaseResultDTOs;
 using BookingWebApiV1.Services.WashingMachineService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,10 +68,13 @@ namespace BookingWebApiV1.Controllers
             }
 
             var programData = await WashingMachineService.GetBookingProgram(booking);
+
+            if (programData.Equals(default(ProgramResultDTO)))
+            {
+                return NotFound();
+            }
             
             return Ok(programData);
         }
-
-       
     }
 }

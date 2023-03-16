@@ -71,3 +71,5 @@ D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbsc
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbscripts\stored procedures\Rfidcards.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbscripts\stored procedures\Users.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbscripts\Trigger\Trigger_insertIntoDepartmentElectricityPrices.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbscripts\database\12. AvailableBookingTimes.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Debug\net6.0\dbscripts\stored procedures\AvailableBookingTimes.sql

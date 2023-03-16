@@ -60,26 +60,6 @@ public static class DataTableToDTOConverter
         return bookingNumber;
     }
     
-    public static List<BookingElectricityPriceDTO> ConvertDataTableToBookingElectricityPriceList(DataTable dataTable)
-    {
-        var prices = new List<BookingElectricityPriceDTO>();
-
-        foreach (DataRow row in dataTable.Rows)
-        {
-            var bookingMachineDto = new BookingElectricityPriceDTO
-            {
-                Location = Convert.ToString(row["Location"])!,
-                DepartmentName = Convert.ToString(row["DepartmentName"])!,
-                TimeEnd = Convert.ToDateTime(row["TimeEnd"]),
-                TimeStart = Convert.ToDateTime(row["TimeStart"]),
-                DKKPerKWh = Convert.ToDecimal(row["DKKPerKWh"])
-            };
-
-            prices.Add(bookingMachineDto);
-        }
-
-        return prices;
-    }
     
     public static BookingMachineProgramDTO ConvertDataTableToBookingMachineProgramDTO(DataTable dataTable)
     {
@@ -87,7 +67,7 @@ public static class DataTableToDTOConverter
 
         foreach (DataRow row in dataTable.Rows)
         {
-            bookingMachineProgramDto.MachineManufacturer = Convert.ToString(row["ProgramId"])!;
+            bookingMachineProgramDto.MachineManufacturer = Convert.ToString(row["MachineManufacturer"])!;
             bookingMachineProgramDto.ModelName = Convert.ToString(row["ModelName"])!;
             bookingMachineProgramDto.ProgramName = Convert.ToString(row["ProgramName"])!;
             bookingMachineProgramDto.ProgramRunTimeMinutes = Convert.ToInt16(row["ProgramRunTimeMinutes"]);
@@ -154,14 +134,15 @@ public static class DataTableToDTOConverter
         };
     }
 
-    public static ProgramResultDTO ConvertDataRowToProgramDTO(DataRow dataRow)
+    public static ProgramResultDTO ConvertDataRowToProgramResultDTO(DataRow dataRow)
     {
         return new ProgramResultDTO
         {
             ProgramName = (string)dataRow["ProgramName"],
             ProgramRunTimeMinutes = (int)dataRow["ProgramRunTimeMinutes"],
             MachineManufacturer = (string)dataRow["MachineManufacturer"],
-            ModelName = (string)dataRow["ModelName"]
+            ModelName = (string)dataRow["ModelName"],
+            MachineType = (string)dataRow["MachineType"]
         };
     }
 
@@ -182,5 +163,27 @@ public static class DataTableToDTOConverter
         }
 
         return arduinoMachines;
+    }
+
+    public static List<AvailableBookingTimeDTO> ConvertDataTableToAvailableBookingTimeDTOList(DataTable dataTable)
+    {
+        var availAbleBookingTimes = new List<AvailableBookingTimeDTO>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            var bookingId = row["BookingId"];
+            
+            var availableBooking = new AvailableBookingTimeDTO
+            {
+                StartTime = (DateTime)row["StartTime"],
+                EndTime = (DateTime)row["EndTime"],
+                bookingId = bookingId == DBNull.Value ? 0 : (int)bookingId,
+                DepartmentName = (string)row["DepartmentName"]
+            };
+            
+            availAbleBookingTimes.Add(availableBooking);
+        }
+
+        return availAbleBookingTimes;
     }
 }

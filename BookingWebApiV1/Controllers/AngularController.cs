@@ -1,4 +1,4 @@
-﻿using BookingWebApiV1.Api.Requests;
+﻿using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Services.AngularService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace BookingWebApiV1.Controllers
         {
             AngularService = angularService;
         }
-        
+
         [HttpGet("validateToken")]
         [AllowAnonymous]
         public async Task<IActionResult> ValidateToken()
@@ -39,22 +39,6 @@ namespace BookingWebApiV1.Controllers
             return Ok(isValid);
         }
 
-        [Authorize]
-        [HttpGet("getElectricityPrices")]
-        public async Task<IActionResult> GetElectricityPrices()
-        {
-            var prices = await AngularService.GetPrices();
-
-            if (prices.Any())
-            {
-                return Ok(prices);
-            }
-
-
-            return BadRequest("theres no prices");
-        }
-
-      
 
         [HttpPost("createNewMachine")]
         [Authorize]
@@ -70,19 +54,25 @@ namespace BookingWebApiV1.Controllers
             return Created("result", createNewMachineRequest);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("createNewBooking")]
         public async Task<IActionResult> CreateNewBooking([FromBody] CreateNewBookingRequest newBookingRequest)
         {
-           
-            var newBooking = await AngularService.CreateNewBooking(newBookingRequest);
-
-            if (newBooking.BookingId < 1)
+            try
             {
-                return NotFound("booking is not presented in the database");
+                var newBooking = await AngularService.CreateNewBooking(newBookingRequest);
+
+                if (newBooking.BookingId < 1)
+                {
+                    return NotFound("booking is not presented in the database");
+                }
+
+                return Created("booking", newBooking);
             }
-            
-            return Created("booking", newBooking);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [Authorize]
@@ -115,7 +105,8 @@ namespace BookingWebApiV1.Controllers
 
         [Authorize]
         [HttpPost("createNewArduinoMachine")]
-        public async Task<IActionResult> CreateNewArduinoMachine(CreateArduinoMachineRequest createArduinoMachineRequest)
+        public async Task<IActionResult> CreateNewArduinoMachine(
+            CreateArduinoMachineRequest createArduinoMachineRequest)
         {
             var result = await AngularService.CreateNewArduinoMachine(createArduinoMachineRequest);
 
@@ -124,18 +115,32 @@ namespace BookingWebApiV1.Controllers
                 return NotFound("arduino machine not found");
             }
 
-            return Created("ArduinoMachine",result);
+            return Created("ArduinoMachine", result);
         }
 
         [Authorize]
         [HttpGet("getMachinesByArduinoMasterId")]
-        public async Task<IActionResult> GetMachinesByArduinoMasterId([FromQuery]string arduinoMasterId)
+        public async Task<IActionResult> GetMachinesByArduinoMasterId([FromQuery] string arduinoMasterId)
         {
             var result = await AngularService.GetMachinesByArduinoMasterId(arduinoMasterId);
 
             if (!result.Any())
             {
                 return NotFound($"no machines connected to the arduinoMaterId {arduinoMasterId}");
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("getAvailableBookingTimes")]
+        public async Task<IActionResult> GetAvailableBookingTimes(string username)
+        {
+            var result = await AngularService.GetAvailableBookingTimes(username);
+
+            if (!result.Any())
+            {
+                return NotFound($"thers no available booking times for user {username}");
             }
 
             return Ok(result);

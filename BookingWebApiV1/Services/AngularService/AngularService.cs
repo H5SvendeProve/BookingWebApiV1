@@ -1,7 +1,8 @@
 ﻿using BookingWebApiV1.Api.Mappers;
-using BookingWebApiV1.Api.Requests;
+using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Database;
+using BookingWebApiV1.Exceptions;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
 
@@ -22,22 +23,6 @@ public class AngularService : IAngularService
         RequestMapper = requestMapper;
     }
 
-    public async Task<List<ElectricityPriceDTO>> GetPrices()
-    {
-        var prices = await DatabaseContext.GetElectricityPrices();
-
-        if (prices.Any())
-        {
-            var groupedPrices = prices.GroupBy(price => price.TimeStart.Date)
-                .Select(priceGrouping => priceGrouping.OrderByDescending(p => p.TimeStart).Take(48))
-                .ToList();
-
-            prices = groupedPrices.SelectMany(price => price).OrderByDescending(price => price.TimeStart).Take(48)
-                .ToList();
-        }
-
-        return prices;
-    }
 
     public async Task<bool> CreateNewMachine(CreateNewMachineRequest createNewMachineRequest)
     {
@@ -46,15 +31,14 @@ public class AngularService : IAngularService
         return await DatabaseContext.InsertNewMachine(machineDTO);
     }
 
-    private decimal GetPrice(List<BookingElectricityPriceDTO> prices, BookingDTO bookingDTO)
+    private static decimal GetPrice(List<ElectricityPriceDTO> prices, BookingDTO bookingDTO)
     {
-        // TODO handle a default price if we dont have it yet. or take the price from yesterday
         decimal potentialPrice = 0;
 
         foreach (var price in prices.Where(price => price.TimeStart.Date == bookingDTO.StartTime.Date)
                      .Where(price => price.TimeStart.Hour == bookingDTO.StartTime.Hour))
         {
-            potentialPrice = price.DKKPerKWh;
+            potentialPrice = (decimal)price.DKKPerKWh;
         }
 
         return potentialPrice;
@@ -83,12 +67,29 @@ public class AngularService : IAngularService
     public async Task<BookingDTO> CreateNewBooking(CreateNewBookingRequest createNewBookingRequest)
     {
         var bookingDTO = RequestMapper.MapRequestToDTO(createNewBookingRequest);
-        
-        var electricityPrices = await DatabaseContext.GetElectricityPricesBasedOnBooking(bookingDTO);
+
+        var electricityPrices = await DatabaseContext.GetElectricityPrices(bookingDTO.Username);
+
+        if (!electricityPrices.Any())
+        {
+            throw new NotFoundException(
+                "theres no electricityPrices cannot determine the estimated price of the booking");
+        }
 
         var potentialElectricityPrice = GetPrice(electricityPrices, bookingDTO);
 
         var bookingProgramData = await DatabaseContext.GetBookingMachineProgramFromBooking(bookingDTO);
+
+        if (bookingProgramData.Equals(default(BookingMachineProgramDTO)))
+        {
+            throw new NotFoundException(
+                $"no machines with MachineManufacturer : {bookingDTO.MachineManufacturer} and {bookingDTO.ModelName} and programId {bookingDTO.ProgramId}");
+        }
+
+        if (bookingDTO.MachineManufacturer != bookingProgramData.MachineManufacturer)
+        {
+            throw new NotFoundException("machine program is not presented in the database");
+        }
 
         var effect = CalculateMachineEffect(bookingProgramData.ProgramRunTimeMinutes, bookingProgramData.EffectKWh);
 
@@ -97,11 +98,38 @@ public class AngularService : IAngularService
         bookingDTO.Price = estimatedPrice;
 
         bookingDTO.EndTime = bookingDTO.StartTime.AddMinutes(bookingProgramData.ProgramRunTimeMinutes);
-        
-        return await DatabaseContext.InsertNewBooking(bookingDTO);
+
+        var availableTimes = await DatabaseContext.GetAvailableBookingTimesInDepartment(bookingDTO.Username);
+
+        if (!availableTimes.Any())
+        {
+            throw new NotFoundException("theres no available booking times left. please try again tomorrow");
+        }
+
+        var firstAvailableTimeWithZeroBookingId =
+            availableTimes.FirstOrDefault(t => t.StartTime == bookingDTO.StartTime && t.bookingId == 0);
+
+        if (firstAvailableTimeWithZeroBookingId == null ||
+            firstAvailableTimeWithZeroBookingId.Equals(default(AvailableBookingTimeDTO)))
+        {
+            throw new BadRequestException($"the time {bookingDTO.StartTime} is not available");
+        }
+
+        var insertedBooking = await DatabaseContext.InsertNewBooking(bookingDTO);
+
+        firstAvailableTimeWithZeroBookingId.bookingId = insertedBooking.BookingId;
+
+        var updatedAvailableTime =
+            await DatabaseContext.UpdateAvailableBookingToTaken(firstAvailableTimeWithZeroBookingId);
+
+        if (!updatedAvailableTime)
+        {
+            throw new ServerErrorException("error on updating available booking time");
+        }
+
+        return insertedBooking;
     }
-
-
+    
     public async Task<bool> ValidateToken(string token)
     {
         return await JwtProvider.IsTokenValid(token);
@@ -141,6 +169,13 @@ public class AngularService : IAngularService
     {
         var dbResult = await DatabaseContext.GetMachinesByArduinoMasterId(arduinoMasterId);
 
+        return dbResult;
+    }
+
+    public async Task<List<AvailableBookingTimeDTO>> GetAvailableBookingTimes(string username)
+    {
+        var dbResult = await DatabaseContext.GetAvailableBookingTimesInDepartment(username);
+        
         return dbResult;
     }
 }

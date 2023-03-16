@@ -26,4 +26,8 @@
     <ProjectReference Include="..\BookingWebApiV1\BookingWebApiV1.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controller" />
+  </ItemGroup>
+
 </Project>

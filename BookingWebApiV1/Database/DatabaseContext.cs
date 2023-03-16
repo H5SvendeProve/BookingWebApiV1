@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using BookingWebApiV1.Exceptions;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
 using BookingWebApiV1.Utils;
@@ -11,18 +12,17 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
 {
     private readonly string dbScriptsPath = SystemUtil.GetRootPath + @"\dbScripts";
-    
+
     public DatabaseContext(string connectionString) : base(connectionString)
     {
-        
         CreateDatabaseIfNotExists(connectionString);
         CreateDatabaseTablesIfNotExists(connectionString);
         CreateDatabaseStoredProceduresAndTriggersIfNotExists(connectionString);
-       
     }
 
     private static void ExecuteFiles(SqlConnection connection, string[] files)
     {
+        string file = null;
         try
         {
             if (connection.State == ConnectionState.Closed)
@@ -32,6 +32,8 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
             foreach (var script in files)
             {
+                file = script;
+
                 var fileContent = File.ReadAllText(script);
 
                 if (!fileContent.Any()) continue;
@@ -39,6 +41,11 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
                 using var command = new SqlCommand(fileContent, connection);
                 command.ExecuteNonQuery();
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"file caugt int error {file} \n", e);
+            throw;
         }
         finally
         {
@@ -110,7 +117,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         {
             switch (sqlException.Number)
             {
-                case 18456:
+                case 1326:
                     break;
             }
         }
@@ -158,7 +165,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
             ExecuteFiles(connection, databaseFiles);
         }
-        catch (Exception e)
+        catch (CustomSqlException e)
         {
             Console.WriteLine(e);
             throw;
@@ -208,9 +215,14 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
     }
 
 
-    public async Task<List<ElectricityPriceDTO>> GetElectricityPrices()
+    public async Task<List<ElectricityPriceDTO>> GetElectricityPrices(string username)
     {
-        var dataTable = await ExecuteStoredProcedureNoParameters("GetAllElectricityPrices");
+        SqlParameter[] sqlParameters =
+        {
+            new("@Username", username)
+        };
+        
+        var dataTable = await ExecuteStoredProcedureGetListResultAsync("GetElectricityPrice", sqlParameters);
 
         var electricityPrices = ConvertDataTableToListOfElectricityPrice(dataTable);
 
@@ -219,11 +231,25 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
     public async Task<UserDTO> GetUserWithGivenUsername(string username)
     {
-        var dataTable = await ExecuteStoredProcedureNoParameters("GetAllUsers");
+        try
+        {
+            var dataTable = await ExecuteStoredProcedureNoParameters("GetAllUsers");
 
-        var Users = ConvertDataTableToListOfUsers(dataTable);
+            var Users = ConvertDataTableToListOfUsers(dataTable);
 
-        return Users.FirstOrDefault(usr => usr.Username == username) ?? new UserDTO();
+            return Users.FirstOrDefault(usr => usr.Username == username) ?? new UserDTO();
+        }
+
+        catch (SqlException sqlException)
+        {
+            throw new CustomSqlException(sqlException);
+        }
+
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<bool> UserExists(string username)
@@ -263,6 +289,33 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         return bookingDTO;
     }
 
+    public async Task<List<AvailableBookingTimeDTO>> GetAvailableBookingTimesInDepartment(string username)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new("@Username", username)
+        };
+
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetAvailableBookingTimes", sqlParameters);
+
+        return ConvertDataTableToAvailableBookingTimeDTOList(result);
+    }
+
+    public async Task<bool> UpdateAvailableBookingToTaken(AvailableBookingTimeDTO bookingTimeDTO)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new("@BookingId", bookingTimeDTO.bookingId),
+            new("@EndTime", bookingTimeDTO.EndTime),
+            new("@StartTime", bookingTimeDTO.StartTime),
+            new("@DepartmentName", bookingTimeDTO.DepartmentName)
+        };
+
+        var result = await ExecuteNonQueryStoredProcedureAsync("UpdateAvailableBookingTimes", sqlParameters);
+
+        return result == 1;
+    }
+
     public async Task<BookingMachineProgramDTO> GetBookingMachineProgramFromBooking(BookingDTO bookingDTO)
     {
         SqlParameter[] sqlParameters =
@@ -276,20 +329,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
         return ConvertDataTableToBookingMachineProgramDTO(result);
     }
-
-
-    public async Task<List<BookingElectricityPriceDTO>> GetElectricityPricesBasedOnBooking(BookingDTO bookingDTO)
-    {
-        SqlParameter[] sqlParameters =
-        {
-            new("@UserName", bookingDTO.Username)
-        };
-
-        var result = await ExecuteStoredProcedureGetListResultAsync("GetElectricityPrice", sqlParameters);
-
-        return ConvertDataTableToBookingElectricityPriceList(result);
-    }
-
+    
     public async Task<bool> InsertNewRfidCard(RfidCardDTO rfidCardDTO)
     {
         var sqlParameter = ConvertDtoToSqlParameters(rfidCardDTO);
@@ -332,8 +372,8 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
             new("@MasterArduinoId", masterArduinoId),
             new("@ApiKey", apiKey)
         };
-        
-        var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("GetMasterArduino",sqlParameters);
+
+        var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("GetMasterArduino", sqlParameters);
 
         return dbResult != null ? ConvertDataRowToMasterArduinoDTO(dbResult) : new MasterArduinoDTO();
     }
@@ -344,7 +384,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         SqlParameter[] sqlParameters =
         {
             new("@RfidCardId", rfidCardDTO.RfidCardId),
-            new("@scannedTime", DateTime.Now)
+            new("@scannedTime", DateTime.Now.AddMinutes(4))
         };
 
 
@@ -389,11 +429,73 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
     {
         SqlParameter[] sqlParameters =
         {
-            new ("@ProgramId", bookingDTO.ProgramId)
+            new("@ProgramId", bookingDTO.ProgramId)
         };
 
         var dbResult = await ExecuteStoredProcedureAndGetSingleResultAsync("GetProgram", sqlParameters);
 
-        return dbResult != null ? ConvertDataRowToProgramDTO(dbResult) : new ProgramResultDTO();
+        return dbResult != null ? ConvertDataRowToProgramResultDTO(dbResult) : new ProgramResultDTO();
+    }
+
+    public async Task<bool> InsertNewDepartment(DepartmentDTO newDepartment)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(newDepartment);
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertDepartment", sqlParameter);
+
+        return dbResult == 1;
+    }
+
+    public async Task<bool> DeleteUser(UserDTO userDTO)
+    {
+        SqlParameter[] parameters =
+        {
+            new("@Username", userDTO.Username)
+        };
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("DeleteUser", parameters);
+
+        return dbResult == 1;
+    }
+
+    public async Task<bool> insertMachineProgram(MachineProgramDTO machineProgramDTO)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(machineProgramDTO);
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertMachineProgram", sqlParameter);
+
+        return dbResult == 1;
+    }
+
+    public async Task<bool> InsertElectricityPrice(ElectricityPriceDTO electricityPriceDTO)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(electricityPriceDTO);
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertElectricityPrice", sqlParameter);
+
+        return dbResult == 1;
+    }
+
+    public async Task<bool> InsertDepartmentElectricityPrice(DepartmentElectricityPricesDTO departmentElectricityPrice)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(departmentElectricityPrice);
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertDepartmentElectricityPrice", sqlParameter);
+
+        return dbResult == 1;
+    }
+
+    public async Task<bool> InsertProgram(ProgramDTO programDTO)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(programDTO, "ProgramId");
+
+        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertProgram", sqlParameter);
+
+        return dbResult == 1;
+    }
+
+    public async Task InsertAvailableBookingTimes()
+    {
+        await ExecuteStoredProcedureNoParameters("InsertAvailableBookingTimes");
     }
 }

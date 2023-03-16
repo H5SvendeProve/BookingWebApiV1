@@ -40,3 +40,16 @@ BEGIN
 
 END;')
 end
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DeleteUser]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC('
+create procedure DeleteUser
+
+    @Username nvarchar (16)
+
+	as
+begin
+delete from Users where Username = @Username;
+end;')
+end
