@@ -39,10 +39,10 @@ as
     end;')
 end
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetAllElectricityPrices]') AND type in (N'P', N'PC'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetElectricityPrices]') AND type in (N'P', N'PC'))
 BEGIN
 EXEC('
-ALTER Procedure [dbo].[GetElectricityPrice]
+CREATE Procedure GetElectricityPrices
 
 	@Username nvarchar(16)
 
@@ -51,14 +51,31 @@ begin
 
 	set NOCOUNT on;
 
-	SELECT ep.Exr, ep.TimeStart, ep.TimeEnd,
-           CASE WHEN d.ZipCode > 4999 THEN ''WestDenmark''
-                ELSE ''EastDenmark''
-           END AS Location
+
+    SELECT ep.DKKPerKWh, ep.EURPerKWh, ep.Exr, ep.TimeStart, ep.TimeEnd,
+           IIF(d.ZipCode > 4999, ''WestDenmark'', ''EastDenmark'') AS Location
     FROM Departments d
-    INNER JOIN ElectricityPrices ep ON 
-        (CASE WHEN d.ZipCode > 4999 THEN ''WestDenmark'' ELSE ''EastDenmark'' END) = ep.Location
-	where d.DepartmentName in (select top 1 departmentname from users where username =@Username) order by TimeStart desc, TimeEnd desc
+    INNER JOIN ElectricityPrices ep ON
+        (IIF(d.ZipCode > 4999, ''WestDenmark'', ''EastDenmark'')) = ep.Location where
+	d.DepartmentName = (select top 1 departmentName from Users where Username = @Username)order by ep.TimeStart desc, ep.TimeEnd desc
 
 end;')
 end
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DeleteElectricityPrice]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC('
+create procedure UpdateAvailableBookingTimesToBeAvailable
+
+        @StartTime DateTime,
+        @EndTime DateTime,
+        @DepartmentName nvarchar (128),
+        @BookingId int
+
+    as
+
+    begin
+        update AvailableBookingTimes set BookingId = default where StartTime = @StartTime and EndTime = @EndTime and DepartmentName = @DepartmentName and VaskeriDbTest.dbo.AvailableBookingTimes.BookingId = @BookingId
+    end;')
+end
+

@@ -66,44 +66,13 @@ public class FrontendService : IFrontendService
     {
         var bookingDTO = RequestMapper.MapRequestToDTO(createNewBookingRequest);
 
-        var electricityPrices = await DatabaseContext.GetElectricityPrices(bookingDTO.Username);
-
-        if (!electricityPrices.Any())
-        {
-            throw new NotFoundException(
-                "theres no electricityPrices cannot determine the estimated price of the booking");
-        }
-
-        var potentialElectricityPrice = GetPrice(electricityPrices, bookingDTO);
-
-        var bookingProgramData = await DatabaseContext.GetBookingMachineProgramFromBooking(bookingDTO);
-
-        if (bookingProgramData.Equals(default(BookingMachineProgramDTO)))
-        {
-            throw new NotFoundException(
-                $"no machines with MachineManufacturer : {bookingDTO.MachineManufacturer} and {bookingDTO.ModelName} and programId {bookingDTO.ProgramId}");
-        }
-
-        if (bookingDTO.MachineManufacturer != bookingProgramData.MachineManufacturer)
-        {
-            throw new NotFoundException("machine program is not presented in the database");
-        }
-
-        var effect = CalculateMachineEffect(bookingProgramData.ProgramRunTimeMinutes, bookingProgramData.EffectKWh);
-
-        var estimatedPrice = CalculateEstimatedPrice(effect, potentialElectricityPrice);
-
-        bookingDTO.Price = estimatedPrice;
-
-        bookingDTO.EndTime = bookingDTO.StartTime.AddMinutes(bookingProgramData.ProgramRunTimeMinutes);
-
         var availableTimes = await DatabaseContext.GetAvailableBookingTimesInDepartment(bookingDTO.Username);
 
         if (!availableTimes.Any())
         {
             throw new NotFoundException("theres no available booking times left. please try again tomorrow");
         }
-
+        
         var firstAvailableTimeWithZeroBookingId =
             availableTimes.FirstOrDefault(t => t.StartTime == bookingDTO.StartTime && t.bookingId == 0);
 
@@ -113,6 +82,51 @@ public class FrontendService : IFrontendService
             throw new BadRequestException($"the time {bookingDTO.StartTime} is not available");
         }
 
+        var electricityPrices = await DatabaseContext.GetElectricityPrices(bookingDTO.Username);
+
+        if (!electricityPrices.Any())
+        {
+            throw new NotFoundException(
+                "theres no electricityPrices cannot determine the estimated price of the booking");
+        }
+        
+        var electricityPriceInBookingStartTime = electricityPrices.FirstOrDefault(price => price.TimeStart.Date == bookingDTO.StartTime.Date && price.TimeStart.Hour == bookingDTO.StartTime.Hour);
+
+        if (electricityPriceInBookingStartTime == null || electricityPriceInBookingStartTime.Equals(default(ElectricityPriceDTO)))
+        {
+            throw new NotFoundException("electricityPrice is not presented in database");
+        }
+        
+        var bookingProgramData = await DatabaseContext.GetBookingMachineProgramFromBooking(bookingDTO);
+
+        if (bookingProgramData.Equals(default(BookingMachineProgramDTO)))
+        {
+            throw new NotFoundException(
+                $"no machines with MachineManufacturer : {bookingDTO.MachineManufacturer} and {bookingDTO.ModelName} and programId {bookingDTO.ProgramId}");
+        }
+        
+        
+        if (bookingDTO.MachineManufacturer != bookingProgramData.MachineManufacturer)
+        {
+            throw new NotFoundException("machine program is not presented in the database");
+        }
+
+        var potentialElectricityPrice = GetPrice(electricityPrices, bookingDTO);
+
+        
+        var effect = CalculateMachineEffect(bookingProgramData.ProgramRunTimeMinutes, bookingProgramData.EffectKWh);
+
+        var estimatedPrice = CalculateEstimatedPrice(effect, potentialElectricityPrice);
+
+        if (estimatedPrice == 0)
+        {
+            throw new BadRequestException("unable to determine the estimated price of the booking");
+        }
+
+        bookingDTO.Price = estimatedPrice;
+
+        bookingDTO.EndTime = bookingDTO.StartTime.AddMinutes(bookingProgramData.ProgramRunTimeMinutes);
+        
         var insertedBooking = await DatabaseContext.InsertNewBooking(bookingDTO);
 
         firstAvailableTimeWithZeroBookingId.bookingId = insertedBooking.BookingId;

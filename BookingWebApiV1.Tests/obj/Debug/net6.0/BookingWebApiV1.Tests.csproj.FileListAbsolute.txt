@@ -126,17 +126,7 @@ D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\obj\Debug\net6.
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Castle.Core.dll
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Moq.dll
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\1. ElectricityPrices.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\10. Bookings.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\11. RfidCards.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\12. AvailableBookingTimes.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\2. Departments.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\3. DepartmentElectricityPrices.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\4. Users.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\5. MasterArduinos.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\6. Machines.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\7. ArduinoMachines.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\8. Programs.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\9. MachinePrograms.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\Inserts\Department.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\Inserts\MachinePrograms.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\Inserts\Machines.sql
@@ -154,3 +144,12 @@ D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\stored procedures\Rfidcards.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\stored procedures\Users.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\Trigger\Trigger_insertIntoDepartmentElectricityPrices.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\10. RfidCards.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\11. AvailableBookingTimes.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\3. Users.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\4. MasterArduinos.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\5. Machines.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\6. ArduinoMachines.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\7. Programs.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\8. MachinePrograms.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\9. Bookings.sql

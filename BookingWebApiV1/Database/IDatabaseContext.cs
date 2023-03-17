@@ -29,8 +29,7 @@ public interface IDatabaseContext
 
     Task<MasterArduinoDTO> GetMasterArduino(string? masterArduinoId, string? apiKey);
 
-    Task<List<BookingDTO>> GetBookedBookingBasedOnRfidCard(RfidCardDTO rfidCardDTO);
-
+    Task<List<BookingDTO>> GetBookedBookingBasedOnRfidCard(RfidCardDTO rfidCardDTO, DateTime scannedTime);
     Task<MasterArduinoDTO> InsertNewMasterArduino(MasterArduinoDTO masterArduinoDTO);
 
     Task<ArduinoMachineDTO> InsertNewArduinoMachine(ArduinoMachineDTO arduinoMachineDTO);
@@ -39,10 +38,13 @@ public interface IDatabaseContext
 
     Task<bool> InsertNewDepartment(DepartmentDTO newDepartment);
     Task<bool> DeleteUser(UserDTO userDTO);
-    Task<bool> insertMachineProgram(MachineProgramDTO machineProgramDTO);
+    Task<bool> InsertMachineProgram(MachineProgramDTO machineProgramDTO);
     Task<bool> InsertElectricityPrice(ElectricityPriceDTO electricityPriceDTO);
-    Task<bool> InsertDepartmentElectricityPrice(DepartmentElectricityPricesDTO departmentElectricityPrice);
 
     Task<bool> InsertProgram(ProgramDTO programDTO);
     Task InsertAvailableBookingTimes();
+    Task<bool> DeleteElectricityPrice(ElectricityPriceDTO electricityPriceDTO);
+    Task<bool> ResetAvailableBookingTime(AvailableBookingTimeDTO availableBookingTimeDTO);
+    
+    Task<bool> UpdateAllBookingTimesToBeAvailableInDepartment(string departmentName);
 }

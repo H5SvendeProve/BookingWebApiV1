@@ -5,7 +5,7 @@ namespace BookingWebApiV1.Services.WashingMachineService;
 
 public interface IWashingMachineService
 {
-    Task<BookingDTO> GetBookingConnectedToRfid(string rfidCardId);
+    Task<BookingDTO> GetBookingConnectedToRfid(string rfidCardId, DateTime scannedTime);
 
     Task<ProgramResultDTO> GetBookingProgram(BookingDTO bookingDTO);
     

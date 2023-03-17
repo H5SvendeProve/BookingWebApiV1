@@ -60,7 +60,7 @@ public class LoginServiceTests
         // Arrange
         var loginRequest = new LoginUserRequest("testUser", "password213");
 
-        await InsertTestUser();
+        await TestDataInserter.InsertTestUser(LoginService);
         
         // Actual
         var actual = await Assert.ThrowsAsync<BadRequestException>(async () => await LoginService.LoginUser(loginRequest));
@@ -88,56 +88,31 @@ public class LoginServiceTests
     [Fact]
     public async Task RegisterNewUser_should_return_true()
     {
-        await InsertNewDepartmentTestData();
+        await TestDataInserter.InsertTestDepartment(DatabaseContext);
 
-        await DeleteTestUser();
+        var testUser = TestDataCreator.GetTestUserRequest();
+        
+        
+        await TestDataInserter.DeleteTestUser(DatabaseContext, RequestMapper.MapRequestToDTO(testUser));
         // Arrange
         var newUser = TestDataCreator.GetTestUserRequest();
         // Actual
         var newUserCreatedActual = await LoginService.RegisterNewUser(newUser);
         
-        // Excepted
-        bool newUserCreatedExpected = true;
-
         // Assert
-        Assert.Equal(newUserCreatedExpected, newUserCreatedActual);
-        Assert.True(newUserCreatedExpected);
+        Assert.True(newUserCreatedActual);
     }
 
     [Fact]
     public async Task LoginUser_should_return_jwtToken()
     {
         var loginUserRequest = new LoginUserRequest("testUser", "password");
-
-        await InsertTestUser();
-
+        
+        await TestDataInserter.InsertTestUser(LoginService);
+        
         var actual = await LoginService.LoginUser(loginUserRequest);
 
         Assert.StartsWith("Bearer ", actual);
         Assert.True(actual.StartsWith("Bearer ") && actual.Length > 10);
-    }
-
-    
-
-    private async Task InsertTestUser()
-    {
-        var createNewUser = TestDataCreator.GetTestUserRequest();
-        await LoginService.RegisterNewUser(createNewUser);
-    }
-
-    private async Task InsertNewDepartmentTestData()
-    {
-        var newDepartment = TestDataCreator.GetTestDepartmentDTO();
-
-        await DatabaseContext.InsertNewDepartment(newDepartment);
-    }
-
-    private async Task DeleteTestUser()
-    {
-        var user = TestDataCreator.GetTestUserRequest();
-
-        var userDTO = RequestMapper.MapRequestToDTO(user);
-
-        await DatabaseContext.DeleteUser(userDTO);
     }
 }

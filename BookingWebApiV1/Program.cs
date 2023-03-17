@@ -63,8 +63,8 @@ builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 builder.Services.AddSingleton<IRequestMapper, RequestMapper>();
 
-//var connectionString = builder.Configuration.GetConnectionString("MkConnection");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("MkConnection");
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddSingleton<IDatabaseContext>(new DatabaseContext(connectionString));
 

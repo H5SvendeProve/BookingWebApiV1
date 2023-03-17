@@ -46,6 +46,8 @@ namespace BookingWebApiV1.Controllers
         [HttpGet("getBookingProgram")]
         public async Task<IActionResult> GetBookingProgram(string rfid)
         {
+            DateTime scannedTime = DateTime.Now;
+
             if (string.IsNullOrEmpty(rfid) || string.IsNullOrWhiteSpace(rfid))
 
             {
@@ -60,7 +62,7 @@ namespace BookingWebApiV1.Controllers
                 return BadRequest("not a valid rfid");
             }
 
-            var booking = await WashingMachineService.GetBookingConnectedToRfid(rfid);
+            var booking = await WashingMachineService.GetBookingConnectedToRfid(rfid, scannedTime);
 
             if (booking.BookingId < 1)
             {

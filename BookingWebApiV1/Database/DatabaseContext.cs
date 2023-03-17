@@ -17,7 +17,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
     {
         CreateDatabaseIfNotExists(connectionString);
         CreateDatabaseTablesIfNotExists(connectionString);
-        CreateDatabaseStoredProceduresAndTriggersIfNotExists(connectionString);
+        CreateDatabaseStoredProceduresIfNotExists(connectionString);
     }
 
     private static void ExecuteFiles(SqlConnection connection, string[] files)
@@ -53,7 +53,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         }
     }
 
-    private void CreateDatabaseStoredProceduresAndTriggersIfNotExists(string connectionString)
+    private void CreateDatabaseStoredProceduresIfNotExists(string connectionString)
     {
         using SqlConnection connection = new SqlConnection(connectionString);
         try
@@ -62,11 +62,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
             var storedProcedureScripts = Directory.GetFiles(dbScriptsPath + @"\stored procedures", "*.sql");
 
-            var triggerScripts = Directory.GetFiles(dbScriptsPath + @"\Trigger", "*.sql");
-
             ExecuteFiles(connection, storedProcedureScripts);
-
-            ExecuteFiles(connection, triggerScripts);
         }
         catch (Exception e)
         {
@@ -222,7 +218,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
             new("@Username", username)
         };
         
-        var dataTable = await ExecuteStoredProcedureGetListResultAsync("GetElectricityPrice", sqlParameters);
+        var dataTable = await ExecuteStoredProcedureGetListResultAsync("GetElectricityPrices", sqlParameters);
 
         var electricityPrices = ConvertDataTableToListOfElectricityPrice(dataTable);
 
@@ -379,18 +375,17 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
     }
 
 
-    public async Task<List<BookingDTO>> GetBookedBookingBasedOnRfidCard(RfidCardDTO rfidCardDTO)
+    public async Task<List<BookingDTO>> GetBookedBookingBasedOnRfidCard(RfidCardDTO rfidCardDTO, DateTime scannedTime)
     {
         SqlParameter[] sqlParameters =
         {
             new("@RfidCardId", rfidCardDTO.RfidCardId),
-            new("@scannedTime", DateTime.Now.AddMinutes(4))
+            new("@scannedTime", scannedTime)
         };
-
-
+        
         var result = await ExecuteStoredProcedureGetListResultAsync("GetBookingFromRfidCard", sqlParameters);
 
-        return ConvertDataTableToBookingDTOs(result);
+        return ConvertDataTableToBookingDtOs(result);
     }
 
     public async Task<MasterArduinoDTO> InsertNewMasterArduino(MasterArduinoDTO masterArduinoDTO)
@@ -458,7 +453,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         return dbResult == 1;
     }
 
-    public async Task<bool> insertMachineProgram(MachineProgramDTO machineProgramDTO)
+    public async Task<bool> InsertMachineProgram(MachineProgramDTO machineProgramDTO)
     {
         var sqlParameter = ConvertDtoToSqlParameters(machineProgramDTO);
 
@@ -475,16 +470,6 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
 
         return dbResult == 1;
     }
-
-    public async Task<bool> InsertDepartmentElectricityPrice(DepartmentElectricityPricesDTO departmentElectricityPrice)
-    {
-        var sqlParameter = ConvertDtoToSqlParameters(departmentElectricityPrice);
-
-        var dbResult = await ExecuteNonQueryStoredProcedureAsync("InsertDepartmentElectricityPrice", sqlParameter);
-
-        return dbResult == 1;
-    }
-
     public async Task<bool> InsertProgram(ProgramDTO programDTO)
     {
         var sqlParameter = ConvertDtoToSqlParameters(programDTO, "ProgramId");
@@ -497,5 +482,35 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
     public async Task InsertAvailableBookingTimes()
     {
         await ExecuteStoredProcedureNoParameters("InsertAvailableBookingTimes");
+    }
+
+    public async Task<bool> DeleteElectricityPrice(ElectricityPriceDTO electricityPriceDTO)
+    {
+        var sqlParameters = ConvertDtoToSqlParameters(electricityPriceDTO);
+
+        var result = await ExecuteNonQueryStoredProcedureAsync("DeleteElectricityPrice", sqlParameters);
+
+        return result == 1;
+    }
+
+    public async Task<bool> ResetAvailableBookingTime(AvailableBookingTimeDTO availableBookingTimeDTO)
+    {
+        var sqlParameter = ConvertDtoToSqlParameters(availableBookingTimeDTO);
+        var result = await ExecuteNonQueryStoredProcedureAsync("ResetAvailableBookingTime", sqlParameter);
+
+        return result == 1;
+    }
+
+    public async Task<bool> UpdateAllBookingTimesToBeAvailableInDepartment(string departmentName)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new("@DepartmentName", departmentName)
+        };
+
+        var result =
+            await ExecuteNonQueryStoredProcedureAsync("UpdateAllBookingTimesToBeAvailableInDepartment", sqlParameters);
+
+        return result == 1;
     }
 }

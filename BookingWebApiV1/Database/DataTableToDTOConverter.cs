@@ -90,7 +90,7 @@ public static class DataTableToDTOConverter
         return rfidCardDTO;
     }
 
-    public static List<BookingDTO> ConvertDataTableToBookingDTOs(DataTable dataTable)
+    public static List<BookingDTO> ConvertDataTableToBookingDtOs(DataTable dataTable)
     {
         var bookings = new List<BookingDTO>();
 

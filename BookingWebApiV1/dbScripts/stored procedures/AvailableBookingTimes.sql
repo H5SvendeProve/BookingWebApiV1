@@ -75,3 +75,31 @@ EXEC('create procedure UpdateAvailableBookingTimes
     end;
     ')
 end
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ResetAvailableBookingTime]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC('create procedure ResetAvailableBookingTime
+
+        @StartTime DateTime,
+        @EndTime DateTime,
+        @DepartmentName nvarchar (128),
+        @BookingId int
+
+    as
+
+    begin
+        update AvailableBookingTimes set BookingId = @BookingId where StartTime = @StartTime and EndTime = @EndTime and DepartmentName = @DepartmentName
+    end;
+    ')
+end
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UpdateAllBookingTimesToBeAvailableInDepartment]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC('
+create procedure UpdateAllBookingTimesToBeAvailableInDepartment
+    @DepartmentName nvarchar(128)
+    as
+begin
+update dbo.AvailableBookingTimes set BookingId = default where DepartmentName = @DepartmentName;
+end;')
+end
