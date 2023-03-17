@@ -1,5 +1,5 @@
 ﻿using BookingWebApiV1.Api.RequestDTOs;
-using BookingWebApiV1.Services.AngularService;
+using BookingWebApiV1.Services.FrontendService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -8,14 +8,14 @@ using Microsoft.IdentityModel.Tokens;
 namespace BookingWebApiV1.Controllers
 {
     [ApiController]
-    [Route("api/angular")]
-    public class AngularController : ControllerBase
+    [Route("api/frontend")]
+    public class FrontendController : ControllerBase
     {
-        private IAngularService AngularService { get; }
+        private IFrontendService FrontendService { get; }
 
-        public AngularController(IAngularService angularService)
+        public FrontendController(IFrontendService frontendService)
         {
-            AngularService = angularService;
+            FrontendService = frontendService;
         }
 
         [HttpGet("validateToken")]
@@ -29,7 +29,7 @@ namespace BookingWebApiV1.Controllers
                 return BadRequest("missing jwt token");
             }
 
-            bool isValid = await AngularService.ValidateToken(token);
+            bool isValid = await FrontendService.ValidateToken(token);
 
             if (!isValid)
             {
@@ -44,7 +44,7 @@ namespace BookingWebApiV1.Controllers
         [Authorize]
         public async Task<IActionResult> CreateNewMachine([FromBody] CreateNewMachineRequest createNewMachineRequest)
         {
-            var isInserted = await AngularService.CreateNewMachine(createNewMachineRequest);
+            var isInserted = await FrontendService.CreateNewMachine(createNewMachineRequest);
 
             if (!isInserted)
             {
@@ -60,7 +60,7 @@ namespace BookingWebApiV1.Controllers
         {
             try
             {
-                var newBooking = await AngularService.CreateNewBooking(newBookingRequest);
+                var newBooking = await FrontendService.CreateNewBooking(newBookingRequest);
 
                 if (newBooking.BookingId < 1)
                 {
@@ -79,7 +79,7 @@ namespace BookingWebApiV1.Controllers
         [HttpPost("createNewRfidCard")]
         public async Task<IActionResult> CreateNewRfidCard([FromBody] CreateNewRfidCardRequest rfidCardRequest)
         {
-            var rfidCreated = await AngularService.CreateNewRfidCard(rfidCardRequest);
+            var rfidCreated = await FrontendService.CreateNewRfidCard(rfidCardRequest);
 
             if (!rfidCreated)
             {
@@ -93,7 +93,7 @@ namespace BookingWebApiV1.Controllers
         [HttpPost("createNewArduinoMaster")]
         public async Task<IActionResult> CreateNewArduinoMaster(CreateMasterArduinoRequest createMasterArduinoRequest)
         {
-            var result = await AngularService.CreateNewMasterArduino(createMasterArduinoRequest);
+            var result = await FrontendService.CreateNewMasterArduino(createMasterArduinoRequest);
 
             if (result.MasterArduinoId.Length < 1)
             {
@@ -108,7 +108,7 @@ namespace BookingWebApiV1.Controllers
         public async Task<IActionResult> CreateNewArduinoMachine(
             CreateArduinoMachineRequest createArduinoMachineRequest)
         {
-            var result = await AngularService.CreateNewArduinoMachine(createArduinoMachineRequest);
+            var result = await FrontendService.CreateNewArduinoMachine(createArduinoMachineRequest);
 
             if (result.MasterArduinoId.Length < 1)
             {
@@ -122,7 +122,7 @@ namespace BookingWebApiV1.Controllers
         [HttpGet("getMachinesByArduinoMasterId")]
         public async Task<IActionResult> GetMachinesByArduinoMasterId([FromQuery] string arduinoMasterId)
         {
-            var result = await AngularService.GetMachinesByArduinoMasterId(arduinoMasterId);
+            var result = await FrontendService.GetMachinesByArduinoMasterId(arduinoMasterId);
 
             if (!result.Any())
             {
@@ -136,11 +136,11 @@ namespace BookingWebApiV1.Controllers
         [HttpGet("getAvailableBookingTimes")]
         public async Task<IActionResult> GetAvailableBookingTimes(string username)
         {
-            var result = await AngularService.GetAvailableBookingTimes(username);
+            var result = await FrontendService.GetAvailableBookingTimes(username);
 
             if (!result.Any())
             {
-                return NotFound($"thers no available booking times for user {username}");
+                return NotFound($"there's no available booking times for user {username}");
             }
 
             return Ok(result);

@@ -6,24 +6,22 @@ using BookingWebApiV1.Exceptions;
 using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Models.DatabaseResultDTOs;
 
+namespace BookingWebApiV1.Services.FrontendService;
 
-namespace BookingWebApiV1.Services.AngularService;
-
-public class AngularService : IAngularService
+public class FrontendService : IFrontendService
 {
     private IDatabaseContext DatabaseContext { get; }
     private IJwtProvider JwtProvider { get; }
     private IRequestMapper RequestMapper { get; }
 
-    public AngularService(IDatabaseContext databaseContext, IJwtProvider jwtProvider,
+    public FrontendService(IDatabaseContext databaseContext, IJwtProvider jwtProvider,
         IRequestMapper requestMapper)
     {
         DatabaseContext = databaseContext;
         JwtProvider = jwtProvider;
         RequestMapper = requestMapper;
     }
-
-
+    
     public async Task<bool> CreateNewMachine(CreateNewMachineRequest createNewMachineRequest)
     {
         var machineDTO = RequestMapper.MapRequestToDTO(createNewMachineRequest);

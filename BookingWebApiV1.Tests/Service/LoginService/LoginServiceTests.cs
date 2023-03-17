@@ -20,7 +20,7 @@ public class LoginServiceTests
     public LoginServiceTests()
     {
         RequestMapper = new RequestMapper();
-        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringVaskeriServer);
+        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringMkServer);
         var jwtOptionsMock = new Mock<IOptions<JwtOptions>>();
         jwtOptionsMock.Setup(j => j.Value).Returns(new JwtOptions
         {

@@ -77,3 +77,81 @@ i
 9BookingWebApiV1/dbScripts/stored procedures/Rfidcards.sql,8\2\820bec3bd83a0d18e81c0680da145b540f558fea
 e
 5BookingWebApiV1/dbScripts/stored procedures/Users.sql,3\9\39c03cf8433942251908938977ba264cf492e288
+^
+.BookingWebApiV1/Authentication/IJwtProvider.cs,3\9\3960a9bc77ac1fc9b85836fd3912dc8786064314
+]
+-BookingWebApiV1/Authentication/jwtProvider.cs,3\6\36823dc95ee921da0268867477d9f91fc746a172
+[
++BookingWebApiV1.Tests/Constants/Constant.cs,1\3\13cc2d86f6a81529bd124876cccb09e3febd197e
+J
+BookingWebApiV1/Program.cs,e\1\e1463207b896d79eb486ebf2f79ef09771577baa
+P
+ BookingWebApiV1/appsettings.json,1\e\1ef1fd62ffaaa07ae1fc46f0a44cc38597709b27
+\
+,BookingWebApiV1/appsettings.Development.json,e\2\e225406522c30b27aec77ad0204397059f8971f3
+b
+2BookingWebApiV1/Exceptions/KeyNotFoundException.cs,8\f\8fc69f482612d6e9d8adbbaa173ac973414c5c73
+m
+=BookingWebApiV1/Api/RequestDTOs/CreateNewBookingRequestDTO.cs,b\d\bddb3463bf119379a6593fea59c912ae424c2e6d
+q
+ABookingWebApiV1/Api/RequestDTOs/CreateArduinoMachineRequestDTO.cs,8\3\83cf6cb24f1cdf258beb518596ac19aa26b893b4
+o
+?BookingWebApiV1/Api/RequestDTOs/CreateMaterArduinoRequestDTO.cs,7\7\771254ab584ad4d9372dbee484cd7b963176a0bc
+n
+>BookingWebApiV1/Api/RequestDTOs/CreateNewRfidCardRequestDTO.cs,3\f\3f47a38bbfc34577ff32f517005c805fee7b5737
+f
+6BookingWebApiV1/Api/RequestDTOs/LoginUserRequestDTO.cs,b\1\b1a30d4e671105ec73218fcc751822c98261d9bd
+j
+:BookingWebApiV1/Api/RequestDTOs/CreateNewUserRequestDTO.cs,1\c\1c876140e05bd0178d44184105ac8b9a8638b96a
+m
+=BookingWebApiV1/dbScripts/stored procedures/MasterArduino.sql,a\7\a72e90ba516a70ef9ff97786aabeb7534a5835f8
+`
+0BookingWebApiV1/dbScripts/Inserts/Department.sql,e\c\ec0f85da670b22199410d0445de2484ad7d54360
+^
+.BookingWebApiV1/dbScripts/Inserts/Machines.sql,b\a\ba2ed0fcbc6145b99c5ead595b2f15ed47aabfdd
+e
+5BookingWebApiV1/dbScripts/Inserts/MachinePrograms.sql,6\a\6aa8d8e73f4c5f36d4a07c94b0578d3a5fa6a55f
+a
+1BookingWebApiV1/Models/DatabaseDTOs/BookingDTO.cs,0\a\0a10c7dabdb1deae7fe509d6d3a45ee2ee54d350
+d
+4BookingWebApiV1/Models/DatabaseDTOs/DepartmentDTO.cs,2\0\208a9cb94af0495baca8848f3674ceaaec54505e
+u
+EBookingWebApiV1/Models/DatabaseDTOs/DepartmentElectricityPricesDTO.cs,d\5\d556aa9ce9b03cbe827824352b684741f39bee9f
+g
+7BookingWebApiV1/Models/DatabaseDTOs/MasterArduinoDTO.cs,d\0\d0108a6a3cc96f1968e10ad67d9d3924ecc495f7
+b
+2BookingWebApiV1/Models/DatabaseDTOs/RfidCardDTO.cs,e\c\ec2824d2ec036bc271d63c9f4cb233405b103c7d
+^
+.BookingWebApiV1/Models/DatabaseDTOs/UserDTO.cs,e\7\e7de806283cee7cf1944f47b28a28bf2ed280772
+g
+7BookingWebApiV1/dbScripts/stored procedures/Program.sql,5\0\505f9bbbaf5c5ecbf830cc68fc140a167bdde63a
+^
+.BookingWebApiV1/dbScripts/Inserts/Programs.sql,d\d\dd2551491d5d7af2eaef1c30cb9c093a23c63d51
+a
+1BookingWebApiV1/Models/DatabaseDTOs/MachineDTO.cs,7\3\7304b7d6722a645c2513f7c496828edb464f5300
+[
++BookingWebApiV1/Api/Mapper/RequestMapper.cs,2\0\207f39aeddc45a823b38c1f097d632ce1ee78151
+m
+=BookingWebApiV1/Api/RequestDTOs/CreateNewMachineRequestDTO.cs,c\e\ce7c389eda73c0ead25c877056150fff5cd5300d
+h
+8BookingWebApiV1/dbScripts/stored procedures/Bookings.sql,7\4\7410c67e72194bfa0f70c6a1ee7b1b00b6b1d9fd
+n
+>BookingWebApiV1/dbScripts/stored procedures/ArduinoMachine.sql,b\6\b6dd0122993c64b86cd61c208e10d1aeb7a48f8d
+k
+;BookingWebApiV1/dbScripts/stored procedures/Departments.sql,4\9\49c15a38847e69d17917c26d743c7708035266cb
+a
+1BookingWebApiV1/Models/DatabaseDTOs/ProgramDTO.cs,9\0\90a022c187a981e556b350444a48da7465bf0072
+Å
+QBookingWebApiV1.Tests/Service/WashingMachineService/WashingMachineServiceTests.cs,0\5\0555f448087c5f7e96b93968e40edbdca731f809
+q
+ABookingWebApiV1/dbScripts/stored procedures/ElectricityPrices.sql,2\5\255b8f3624ff82d3630e9f8aba3f371caa8b13c4
+{
+KBookingWebApiV1/dbScripts/stored procedures/DepartmentElectricityPrices.sql,d\f\df092532f32c91730c343fa8f43dbb0fd78491fa
+c
+3BookingWebApiV1/Database/DataTableToDTOConverter.cs,e\1\e18a0e854c402cda2d0c75dcadb6cc723bcb8e76
+j
+:BookingWebApiV1/Models/DatabaseDTOs/ElectricityPriceDTO.cs,1\5\154b8b34c8c8973af582f76021ba5c9407bd93c8
+g
+7BookingWebApiV1/DatabaseConnection/DatabaseOperation.cs,d\a\dacc799e0482c88b092d1a79b664248a56cac624
+u
+EBookingWebApiV1/dbScripts/stored procedures/AvailableBookingTimes.sql,3\3\33dad8029a2ef7b2c615bebcdf5b22d855a672cb

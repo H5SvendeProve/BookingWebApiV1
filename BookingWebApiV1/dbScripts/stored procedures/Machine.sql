@@ -8,7 +8,7 @@ CREATE PROCEDURE [dbo].[InsertMachine]
     @MachineType nvarchar(64)
 AS
 	begin
-	if not exists (select * from Machines where MachineManufacturer = @MachineManufacturer and MachineType = @MachineType)
+	if not exists (select * from Machines where MachineManufacturer = @MachineManufacturer and ModelName = @ModelName)
 BEGIN
     INSERT INTO Machines (MachineManufacturer, ModelName, EffectKWh, MachineType)
     VALUES (@MachineManufacturer, @ModelName, @EffectKWh, @MachineType);

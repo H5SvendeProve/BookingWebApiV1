@@ -1,9 +1,9 @@
 ﻿using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Models.DatabaseDTOs;
 
-namespace BookingWebApiV1.Services.AngularService;
+namespace BookingWebApiV1.Services.FrontendService;
 
-public interface IAngularService
+public interface IFrontendService
 {
     Task<bool> CreateNewMachine(CreateNewMachineRequest createNewMachineRequest);
 

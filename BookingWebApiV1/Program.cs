@@ -3,8 +3,8 @@ using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Authentication.ApiKey;
 using BookingWebApiV1.Configurations;
 using BookingWebApiV1.Database;
-using BookingWebApiV1.Services.AngularService;
 using BookingWebApiV1.Services.ApiKeyService;
+using BookingWebApiV1.Services.FrontendService;
 using BookingWebApiV1.Services.LoginService;
 using BookingWebApiV1.Services.WashingMachineService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,7 +56,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<IAngularService, AngularService>();
+builder.Services.AddScoped<IFrontendService, FrontendService>();
 builder.Services.AddScoped<IWashingMachineService, WashingMachineService>();
 builder.Services.AddScoped<IApiKeyService, ApiKeyService>();
 builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
