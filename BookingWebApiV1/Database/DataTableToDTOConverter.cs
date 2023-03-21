@@ -186,4 +186,24 @@ public static class DataTableToDTOConverter
 
         return availAbleBookingTimes;
     }
+
+    public static List<ProgramDTO> ConvertDatatableToProgramDTOs(DataTable dataTable)
+    {
+        var programs = new List<ProgramDTO>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            var program = new ProgramDTO
+            {
+                ProgramName = (string)row["ProgramName"],
+                ProgramId = (int)row["ProgramId"],
+                ProgramRunTimeMinutes = (int)row["ProgramRunTimeMinutes"]
+            };
+
+            programs.Add(program);
+        }
+
+        return programs;
+    }
+    
 }

@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using BookingWebApiV1.Api.Mappers;
+using BookingWebApiV1.Api.Mapper;
 using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Database;
 using BookingWebApiV1.Models.DatabaseResultDTOs;

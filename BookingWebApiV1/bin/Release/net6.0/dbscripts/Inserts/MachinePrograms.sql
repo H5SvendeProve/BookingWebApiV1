@@ -1,2 +1,2 @@
-exec InsertMachineProgram @MachineManufacturer = N'Samsung', @ModelName = N'Vaskemaskine', @ProgramName = N'Koge', @ProgramRunTimeMinutes = 180;
-exec InsertMachineProgram @MachineManufacturer = N'Samsung', @ModelName = N'Tørretumbler', @ProgramName = N'Tørt', @ProgramRunTimeMinutes = 240;
+exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'washer 2000', @ProgramName = N'Koge', @ProgramRunTimeMinutes = 180;
+exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'dryer 3000', @ProgramName = N'Tørt', @ProgramRunTimeMinutes = 180;

@@ -21,3 +21,19 @@ BEGIN
     SELECT SCOPE_IDENTITY() AS BookingId; -- returns the auto-generated booking number
 END;')
 end
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetUserBookings]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC('create procedure GetUserBookings
+@Username nvarchar(16)
+
+as 
+
+begin
+select b.* from Bookings b
+inner join AvailableBookingTimes abt
+on b.BookingId = abt.BookingId
+inner join Users on b.Username = @Username
+where b.StartTime > GETDATE();
+end')
+end

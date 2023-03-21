@@ -55,9 +55,10 @@ begin
                         on u.Username = b.Username
              inner join RfidCards rc
                         on u.Username = rc.Username
-    where rc.RfidCardId = @RfidCardId and startTime >= DATEADD(minute, -15,
-        @scannedTime)
-    AND startTime <= DATEADD(minute, 15, @scannedTime)
-
+			 inner join AvailableBookingTimes abt
+						on abt.BookingId = b.BookingId and u.DepartmentName = abt.DepartmentName
+			 where rc.RfidCardId = @RfidCardId and b.StartTime >= DATEADD(minute, -15,
+			@scannedTime)
+			 AND b.startTime <= DATEADD(minute, 15, @scannedTime);
 end;')
 end

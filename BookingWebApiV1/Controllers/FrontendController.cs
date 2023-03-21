@@ -1,8 +1,11 @@
 ﻿using BookingWebApiV1.Api.RequestDTOs;
+using BookingWebApiV1.Exceptions;
+using BookingWebApiV1.Models.DatabaseDTOs;
 using BookingWebApiV1.Services.FrontendService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using ArgumentException = BookingWebApiV1.Exceptions.ArgumentException;
 
 
 namespace BookingWebApiV1.Controllers
@@ -16,6 +19,7 @@ namespace BookingWebApiV1.Controllers
         public FrontendController(IFrontendService frontendService)
         {
             FrontendService = frontendService;
+            
         }
 
         [HttpGet("validateToken")]
@@ -23,6 +27,7 @@ namespace BookingWebApiV1.Controllers
         public async Task<IActionResult> ValidateToken()
         {
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", string.Empty);
+            
 
             if (token.IsNullOrEmpty())
             {
@@ -54,7 +59,7 @@ namespace BookingWebApiV1.Controllers
             return Created("result", createNewMachineRequest);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("createNewBooking")]
         public async Task<IActionResult> CreateNewBooking([FromBody] CreateNewBookingRequest newBookingRequest)
         {
@@ -126,11 +131,30 @@ namespace BookingWebApiV1.Controllers
 
             if (!result.Any())
             {
-                return NotFound($"no machines connected to the arduinoMaterId {arduinoMasterId}");
+                throw new NotFoundException($"no machines connected to the arduinoMaterId {arduinoMasterId}");
             }
 
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpGet("getMachineProgramsFromMachine")]
+        public async Task<IActionResult> GetMachineProgramsFromMachine(string machineManufacturer, string machineModelName, string machineType)
+        {
+            if (string.IsNullOrEmpty(machineManufacturer) || string.IsNullOrEmpty(machineModelName) || string.IsNullOrEmpty(machineType))
+            {
+                throw new ArgumentException("not all parameters is met");
+            }
+            List<ProgramDTO> result = await FrontendService.GetMachineProgramsFromMachine(machineManufacturer, machineModelName, machineType);
+
+            if (!result.Any())
+            {
+                throw new NotFoundException("no programs has been found");
+            }
+
+            return Ok(result);
+        }
+
 
         [Authorize]
         [HttpGet("getAvailableBookingTimes")]
@@ -140,7 +164,26 @@ namespace BookingWebApiV1.Controllers
 
             if (!result.Any())
             {
-                return NotFound($"there's no available booking times for user {username}");
+                throw new NotFoundException($"there's no available booking times for user {username}");
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("getUserBookings")]
+        public async Task<IActionResult> GetUserBookings(string username)
+        {
+            var result = await FrontendService.GetUserBookings(username);
+
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new BadRequestException("username is required");
+            }
+
+            if (!result.Any())
+            {
+                throw new NotFoundException($"theres no booking to start in the future, connected to user {username}");
             }
 
             return Ok(result);

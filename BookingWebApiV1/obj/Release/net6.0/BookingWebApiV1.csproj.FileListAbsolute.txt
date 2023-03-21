@@ -1,16 +1,7 @@
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\appsettings.Development.json
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\appsettings.json
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\1. ElectricityPrices.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\10. Bookings.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\11. RfidCards.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\2. Departments.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\3. DepartmentElectricityPrices.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\4. Users.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\5. MasterArduinos.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\6. Machines.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\7. ArduinoMachines.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\8. Programs.sql
-D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\9. MachinePrograms.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\Inserts\Department.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\Inserts\MachinePrograms.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\Inserts\Machines.sql
@@ -71,3 +62,23 @@ D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\obj\Release\net6.0\re
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\obj\Release\net6.0\BookingWebApiV1.pdb
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\obj\Release\net6.0\BookingWebApiV1.genruntimeconfig.cache
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\obj\Release\net6.0\ref\BookingWebApiV1.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\10. RfidCards.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\11. AvailableBookingTimes.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\3. Users.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\4. MasterArduinos.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\5. Machines.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\6. ArduinoMachines.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\7. Programs.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\8. MachinePrograms.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\database\9. Bookings.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\dbscripts\stored procedures\AvailableBookingTimes.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.AspNetCore.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Extensions.Hosting.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Extensions.Logging.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Formatting.Compact.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Settings.Configuration.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Sinks.Console.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Sinks.Debug.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1\bin\Release\net6.0\Serilog.Sinks.File.dll

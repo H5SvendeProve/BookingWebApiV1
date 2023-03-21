@@ -4,21 +4,20 @@ EXEC('
 CREATE PROCEDURE InsertMachineProgram
     @MachineManufacturer nvarchar(64),
     @ModelName nvarchar(64),
-    @ProgramName nvarchar(128),
-    @ProgramRunTimeMinutes int
+    @ProgramId int
 AS
 BEGIN
-    DECLARE @ProgramId int
-    SELECT @ProgramId = ProgramId FROM Programs WHERE ProgramName = @ProgramName
-    
-    IF @ProgramId IS NULL
-    BEGIN
-        EXEC InsertProgram @ProgramName, @ProgramRunTimeMinutes
-        SELECT @ProgramId = SCOPE_IDENTITY()
-    END
-    
-    INSERT INTO MachinePrograms (MachineManufacturer, ModelName, ProgramId)
-    VALUES (@MachineManufacturer, @ModelName, @ProgramId)
+
+    if not exists(select *
+                  from MachinePrograms
+                  where MachineManufacturer = @MachineManufacturer
+                    and ModelName = @ModelName
+                    and ProgramId = @ProgramId)
+        begin
+
+            INSERT INTO MachinePrograms (MachineManufacturer, ModelName, ProgramId)
+            VALUES (@MachineManufacturer, @ModelName, @ProgramId)
+        end;
 END;')
 end
 

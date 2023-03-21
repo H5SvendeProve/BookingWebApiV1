@@ -44,7 +44,7 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
         }
         catch (Exception e)
         {
-            Console.WriteLine($"file caugt int error {file} \n", e);
+            Console.WriteLine($"file caught in error {file} \n", e);
             throw;
         }
         finally
@@ -512,5 +512,31 @@ public class DatabaseContext : DatabaseConnection.DatabaseOperation, IDatabaseCo
             await ExecuteNonQueryStoredProcedureAsync("UpdateAllBookingTimesToBeAvailableInDepartment", sqlParameters);
 
         return result == 1;
+    }
+
+    public async Task<List<BookingDTO>> GetUserBookings(string username)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new("@Username", username)
+        };
+        
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetUserBookings", sqlParameters);
+
+        return ConvertDataTableToBookingDtOs(result);
+    }
+
+    public async Task<List<ProgramDTO>> GetMachineProgramsFromMachine(string machineManufacturer, string machineModelName, string machineType)
+    {
+        SqlParameter[] sqlParameters =
+        {
+            new("@machineManufacturer", machineManufacturer),
+            new("@machineModelName", machineModelName),
+            new("@machineType", machineType)
+        };
+
+        var result = await ExecuteStoredProcedureGetListResultAsync("GetMachineProgramsFromMachine", sqlParameters);
+
+        return ConvertDatatableToProgramDTOs(result);
     }
 }

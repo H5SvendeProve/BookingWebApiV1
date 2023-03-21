@@ -17,4 +17,6 @@ public interface IFrontendService
     Task<ArduinoMachineDTO> CreateNewArduinoMachine(CreateArduinoMachineRequest createArduinoMachineRequest);
     Task<List<ArduinoMachineDTO>> GetMachinesByArduinoMasterId(string arduinoMasterId);
     Task<List<AvailableBookingTimeDTO>> GetAvailableBookingTimes(string username);
+    Task<List<BookingDTO>> GetUserBookings(string username);
+    Task<List<ProgramDTO>> GetMachineProgramsFromMachine(string machineManufacturer, string machineModelName, string machineType);
 }

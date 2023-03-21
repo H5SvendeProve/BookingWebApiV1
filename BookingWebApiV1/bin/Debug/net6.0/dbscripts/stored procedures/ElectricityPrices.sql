@@ -62,7 +62,7 @@ begin
 end;')
 end
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DeleteElectricityPrice]') AND type in (N'P', N'PC'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UpdateAvailableBookingTimesToBeAvailable]') AND type in (N'P', N'PC'))
 BEGIN
 EXEC('
 create procedure UpdateAvailableBookingTimesToBeAvailable
@@ -75,7 +75,7 @@ create procedure UpdateAvailableBookingTimesToBeAvailable
     as
 
     begin
-        update AvailableBookingTimes set BookingId = default where StartTime = @StartTime and EndTime = @EndTime and DepartmentName = @DepartmentName and VaskeriDbTest.dbo.AvailableBookingTimes.BookingId = @BookingId
+        update AvailableBookingTimes set BookingId = default where StartTime = @StartTime and EndTime = @EndTime and DepartmentName = @DepartmentName and AvailableBookingTimes.BookingId = @BookingId
     end;')
 end
 

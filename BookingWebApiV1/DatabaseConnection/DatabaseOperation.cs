@@ -14,7 +14,8 @@ public abstract class DatabaseOperation
         ConnectionString = connectionString;
     }
 
-    public async Task<DataRow?> ExecuteStoredProcedureAndGetSingleResultAsync(string storedProcedureName, SqlParameter[] parameters)
+    protected async Task<DataRow?> ExecuteStoredProcedureAndGetSingleResultAsync(string storedProcedureName,
+        SqlParameter[] parameters)
     {
         var dataTable = new DataTable();
         await using var connection = new SqlConnection(ConnectionString);
@@ -48,7 +49,8 @@ public abstract class DatabaseOperation
         }
     }
 
-    public async Task<DataTable> ExecuteStoredProcedureGetListResultAsync(string storedProcedureName, SqlParameter[] parameters)
+    protected async Task<DataTable> ExecuteStoredProcedureGetListResultAsync(string storedProcedureName,
+        SqlParameter[] parameters)
     {
         var dataTable = new DataTable();
         await using var connection = new SqlConnection(ConnectionString);
@@ -63,14 +65,14 @@ public abstract class DatabaseOperation
             using var dataAdapter = new SqlDataAdapter(command);
 
             await Task.Run(() => dataAdapter.Fill(dataTable));
-            
+
             return dataTable;
         }
         catch (SqlException sqlException)
         {
             throw new CustomSqlException(sqlException);
         }
-        
+
         catch (InvalidOperationException invalidOperationException)
         {
             throw new InvalidOperationException("the source DataTable is invalid", invalidOperationException);
@@ -81,7 +83,7 @@ public abstract class DatabaseOperation
         }
     }
 
-    public async Task<int> ExecuteNonQueryStoredProcedureAsync(string storedProcedureName, SqlParameter[] parameters)
+    protected async Task<int> ExecuteNonQueryStoredProcedureAsync(string storedProcedureName, SqlParameter[] parameters)
     {
         int returnVal;
         await using var connection = new SqlConnection(ConnectionString);
@@ -97,10 +99,10 @@ public abstract class DatabaseOperation
             returnVal = returnValue;
         }
         catch (DbException dbException)
-        { 
+        {
             throw new CustomDbException(dbException);
         }
-        
+
         finally
         {
             await connection.CloseAsync();
@@ -109,7 +111,7 @@ public abstract class DatabaseOperation
         return returnVal;
     }
 
-    public async Task<DataTable> ExecuteStoredProcedureNoParameters(string storedProcedureName)
+    protected async Task<DataTable> ExecuteStoredProcedureNoParameters(string storedProcedureName)
     {
         var dataTable = new DataTable();
         await using var connection = new SqlConnection(ConnectionString);
@@ -145,7 +147,7 @@ public abstract class DatabaseOperation
         {
             await connection.CloseAsync();
         }
-    
+
         return dataTable;
     }
 }

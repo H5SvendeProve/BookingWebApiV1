@@ -23,14 +23,14 @@ namespace BookingWebApiV1.Controllers
         [HttpPost("loginUser")]
         public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
         {
-            string jwtToken = await LoginService.LoginUser(user);
+            string token = await LoginService.LoginUser(user);
             
-            if (jwtToken.Length < 1)
+            if (token.Length < 1)
             {
                 throw new BadRequestException("error happened when generating a jwt token");
             }
             
-            return Ok(new { jwtToken });
+            return Ok(new {token});
         }
 
         [AllowAnonymous]

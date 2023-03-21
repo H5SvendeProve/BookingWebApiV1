@@ -2,21 +2,22 @@
 \\Vaskeriserver\iis\sites\BookingWebApi\appsettings.Development.json
 \\Vaskeriserver\iis\sites\BookingWebApi\appsettings.json
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\1. ElectricityPrices.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\10. Bookings.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\11. RfidCards.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\10. RfidCards.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\11. AvailableBookingTimes.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\2. Departments.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\3. DepartmentElectricityPrices.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\4. Users.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\5. MasterArduinos.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\6. Machines.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\7. ArduinoMachines.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\8. Programs.sql
-\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\9. MachinePrograms.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\3. Users.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\4. MasterArduinos.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\5. Machines.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\6. ArduinoMachines.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\7. Programs.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\8. MachinePrograms.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\database\9. Bookings.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\Inserts\Department.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\Inserts\MachinePrograms.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\Inserts\Machines.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\Inserts\Programs.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\stored procedures\ArduinoMachine.sql
+\\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\stored procedures\AvailableBookingTimes.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\stored procedures\Bookings.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\stored procedures\DepartmentElectricityPrices.sql
 \\Vaskeriserver\iis\sites\BookingWebApi\dbscripts\stored procedures\Departments.sql
@@ -33,6 +34,7 @@
 \\Vaskeriserver\iis\sites\BookingWebApi\BookingWebApiV1.runtimeconfig.json
 \\Vaskeriserver\iis\sites\BookingWebApi\BookingWebApiV1.pdb
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.Extensions.DependencyModel.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.IdentityModel.Abstractions.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.IdentityModel.JsonWebTokens.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.IdentityModel.Logging.dll
@@ -40,6 +42,15 @@
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.IdentityModel.Tokens.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Microsoft.OpenApi.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.AspNetCore.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Extensions.Hosting.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Extensions.Logging.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Formatting.Compact.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Settings.Configuration.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Sinks.Console.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Sinks.Debug.dll
+\\Vaskeriserver\iis\sites\BookingWebApi\Serilog.Sinks.File.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Swashbuckle.AspNetCore.Swagger.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Swashbuckle.AspNetCore.SwaggerGen.dll
 \\Vaskeriserver\iis\sites\BookingWebApi\Swashbuckle.AspNetCore.SwaggerUI.dll

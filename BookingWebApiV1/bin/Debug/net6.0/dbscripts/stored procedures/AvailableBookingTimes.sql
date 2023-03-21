@@ -44,7 +44,7 @@ end;
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetAvailableBookingTimes]') AND type in (N'P', N'PC'))
 BEGIN
 EXEC('
-CREATE PROCEDURE GetAvailableBookingTimes @Username nvarchar(16)
+CREATE PROCEDURE [dbo].[GetAvailableBookingTimes] @Username nvarchar(16)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -55,7 +55,7 @@ BEGIN
     FROM AvailableBookingTimes
          INNER JOIN Departments ON AvailableBookingTimes.DepartmentName = Departments.DepartmentName
     WHERE Departments.DepartmentName IN (SELECT DepartmentName FROM Users WHERE Username = @Username)
-      AND AvailableBookingTimes.BookingId IS NULL;
+      AND AvailableBookingTimes.BookingId IS NULL and AvailableBookingTimes.StartTime > GETDATE();
 END')
 END;
     

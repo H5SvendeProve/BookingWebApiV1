@@ -66,7 +66,7 @@ namespace BookingWebApiV1.Controllers
 
             if (booking.BookingId < 1)
             {
-                return BadRequest("error on inserting booing");
+                return BadRequest("error on inserting booking");
             }
 
             var programData = await WashingMachineService.GetBookingProgram(booking);

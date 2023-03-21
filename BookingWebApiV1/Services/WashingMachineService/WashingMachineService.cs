@@ -1,4 +1,4 @@
-﻿using BookingWebApiV1.Api.Mappers;
+﻿using BookingWebApiV1.Api.Mapper;
 using BookingWebApiV1.Database;
 using BookingWebApiV1.Exceptions;
 using BookingWebApiV1.Models.DatabaseDTOs;

@@ -1,2 +1,2 @@
-EXEC InsertMachine @MachineManufacturer = N'Washmatic', @ModelName = N'washer 2000', @EffectKWh = 24, @ModelType = 'Vaskemaskine';
-EXEC InsertMachine @MachineManufacturer = N'Washmatic', @ModelName = N'dryer 3000', @EffectKWh = 13, @ModelType = 'Tørretumbler';
+EXEC InsertMachine @MachineManufacturer = N'Washmatic', @ModelName = N'washer 2000', @EffectKWh = 24, @MachineType = 'Vaskemaskine';
+EXEC InsertMachine @MachineManufacturer = N'Washmatic', @ModelName = N'dryer 3000', @EffectKWh = 13, @MachineType = 'Tørretumbler';

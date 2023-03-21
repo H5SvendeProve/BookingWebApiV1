@@ -1,4 +1,4 @@
-using BookingWebApiV1.Api.Mappers;
+using BookingWebApiV1.Api.Mapper;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Authentication.ApiKey;
 using BookingWebApiV1.Configurations;
@@ -9,9 +9,9 @@ using BookingWebApiV1.Services.LoginService;
 using BookingWebApiV1.Services.WashingMachineService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -63,8 +63,8 @@ builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 builder.Services.AddSingleton<IRequestMapper, RequestMapper>();
 
-var connectionString = builder.Configuration.GetConnectionString("MkConnection");
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var connectionString = builder.Configuration.GetConnectionString("MkConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddSingleton<IDatabaseContext>(new DatabaseContext(connectionString));
 
@@ -76,6 +76,12 @@ builder.Services.ConfigureOptions<JwtOptionsSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 
 // jwt section end
+
+builder.Host.UseSerilog((context, configuration) =>
+    {
+        configuration.ReadFrom.Configuration(context.Configuration);
+    }
+);
 
 var app = builder.Build();
 
@@ -90,6 +96,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseRouting();
 
 app.UseCors("VaskeriServerPolicy");
+
+app.UseSerilogRequestLogging();
 
 //app.UseHttpsRedirection();
 

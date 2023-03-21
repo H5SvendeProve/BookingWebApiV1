@@ -47,4 +47,6 @@ public interface IDatabaseContext
     Task<bool> ResetAvailableBookingTime(AvailableBookingTimeDTO availableBookingTimeDTO);
     
     Task<bool> UpdateAllBookingTimesToBeAvailableInDepartment(string departmentName);
+    Task<List<BookingDTO>> GetUserBookings(string username);
+    Task<List<ProgramDTO>> GetMachineProgramsFromMachine(string machineManufacturer, string machineModelName, string machineType);
 }

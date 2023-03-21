@@ -1,4 +1,4 @@
-﻿using BookingWebApiV1.Api.Mappers;
+﻿using BookingWebApiV1.Api.Mapper;
 using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Database;

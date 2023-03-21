@@ -1,4 +1,4 @@
-﻿using BookingWebApiV1.Api.Mappers;
+﻿using BookingWebApiV1.Api.Mapper;
 using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Authentication;
 using BookingWebApiV1.Database;
@@ -188,6 +188,21 @@ public class FrontendService : IFrontendService
     {
         var dbResult = await DatabaseContext.GetAvailableBookingTimesInDepartment(username);
         
+        return dbResult;
+    }
+
+    public async Task<List<BookingDTO>> GetUserBookings(string username)
+    {
+        var dbResult = await DatabaseContext.GetUserBookings(username);
+
+        return dbResult;
+    }
+
+    public async Task<List<ProgramDTO>> GetMachineProgramsFromMachine(string machineManufacturer, string machineModelName, string machineType)
+    {
+        List<ProgramDTO> dbResult =
+            await DatabaseContext.GetMachineProgramsFromMachine(machineManufacturer, machineModelName, machineType);
+
         return dbResult;
     }
 }

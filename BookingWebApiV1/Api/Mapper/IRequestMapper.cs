@@ -1,7 +1,7 @@
 ﻿using BookingWebApiV1.Api.RequestDTOs;
 using BookingWebApiV1.Models.DatabaseDTOs;
 
-namespace BookingWebApiV1.Api.Mappers;
+namespace BookingWebApiV1.Api.Mapper;
 
 public interface IRequestMapper
 {
