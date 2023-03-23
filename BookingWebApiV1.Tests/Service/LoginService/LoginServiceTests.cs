@@ -20,7 +20,7 @@ public class LoginServiceTests
     public LoginServiceTests()
     {
         RequestMapper = new RequestMapper();
-        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringMkServer);
+        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringVaskeriServer);
         var jwtOptionsMock = new Mock<IOptions<JwtOptions>>();
         jwtOptionsMock.Setup(j => j.Value).Returns(new JwtOptions
         {
@@ -55,10 +55,10 @@ public class LoginServiceTests
     }
 
     [Fact]
-    public async Task LoginUser_wrong_password_should_throw_BadRequestException()
+    public async Task LoginUser_wrong_password_should_throw_NotFoundException()
     {
         // Arrange
-        var loginRequest = new LoginUserRequest("testUser", "password213");
+        var loginRequest = new LoginUserRequest("tester", "password213");
 
         await TestDataInserter.InsertTestUser(LoginService);
         
@@ -73,13 +73,13 @@ public class LoginServiceTests
     public async Task LoginUser_user_does_not_exists_should_throw_notFoundException()
     {
         // Arrange
-        var loginRequest = new LoginUserRequest("testUser1234", "password213");
+        var loginRequest = new LoginUserRequest("tester1", "password");
         
         // Actual
         var actual = await Assert.ThrowsAsync<NotFoundException>(async () => await LoginService.LoginUser(loginRequest));
         
         // Expected
-        var expected = new NotFoundException($"user with username : {loginRequest.Username} does not exist");
+        var expected = new NotFoundException("Username or password is incorrect");
         
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -106,7 +106,7 @@ public class LoginServiceTests
     [Fact]
     public async Task LoginUser_should_return_jwtToken()
     {
-        var loginUserRequest = new LoginUserRequest("testUser", "password");
+        var loginUserRequest = new LoginUserRequest("tester", "password");
         
         await TestDataInserter.InsertTestUser(LoginService);
         

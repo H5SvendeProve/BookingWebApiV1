@@ -10,7 +10,7 @@ public static class TestDataCreator
     {
         return new CreateNewUserRequest
         {
-            Username = "testUser",
+            Username = "tester",
             Password = "password",
             DepartmentName = "test"
         };
@@ -35,7 +35,7 @@ public static class TestDataCreator
         {
             DepartmentName = "test",
             Password = "password",
-            Username = "testUser",
+            Username = "tester",
             UserRole = 0
         };
     }
@@ -78,7 +78,7 @@ public static class TestDataCreator
             MachineManufacturer = "Tester",
             ModelName = "Test model",
             ProgramId = 1,
-            Username = "testUser"
+            Username = "tester"
         };
     }
 
@@ -140,7 +140,7 @@ public static class TestDataCreator
     {
         return new RfidCardDTO
         {
-            Username = "testUser",
+            Username = "tester",
             RfidCardId = "2031720534"
         };
     }
@@ -150,7 +150,7 @@ public static class TestDataCreator
     {
         return new BookingDTO
         {
-            Username = "testUser",
+            Username = "tester",
             ModelName = "Test model",
             ProgramId = 1,
             MachineManufacturer = "Tester",

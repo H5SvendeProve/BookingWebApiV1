@@ -18,7 +18,7 @@ public class WashingMachineServiceTests
 
     public WashingMachineServiceTests()
     {
-        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringMkServer);
+        DatabaseContext = new DatabaseContext(Constants.Constant.testDbConStringVaskeriServer);
         RequestMapper = new RequestMapper();
         WashingMachineService = new Services.WashingMachineService.WashingMachineService(DatabaseContext, RequestMapper);
     }
@@ -28,31 +28,43 @@ public class WashingMachineServiceTests
     {
         // Arrange
         var testBooking = TestDataCreator.GetTestBooking();
-        // take away 5 minutes from startTime to be able to scan the booking
-        
+       
+        // Insert available booking times
         await TestDataInserter.InsertAvailableBookingTimes(DatabaseContext);
 
+        // clear all taken times. (as we only have 5 times per day, they all gets taken during tests)
         await TestDataInserter.UpdateAllBookingTimesToBeAvailableInTestDepartment(DatabaseContext);
 
+        // get available booking times
         var availableBookingTimes = await TestDataInserter.GetAvailableBookingTimes(DatabaseContext);
         
+        // take the first time from the list
         var firstAvailableTime = availableBookingTimes.First();
 
+        // update the test bookings start time to be the first available start time
         testBooking.StartTime = firstAvailableTime.StartTime;
 
+        // update the test bookings end time to be the first available end time
         testBooking.EndTime = firstAvailableTime.EndTime;
 
+        // simulate that the user is going to scan his RFID-card 5 minutes after the booking is created
         var scannedTime = firstAvailableTime.StartTime.AddMinutes(5);
         
+        // insert RFID card to database
         await TestDataInserter.InsertTestRfidCard(DatabaseContext);
+        // get the RFID-card from database
         var testRfidCard = TestDataCreator.GetTestRfidCard();
 
+        // create the test booking
         var bookingCreated = await TestDataInserter.InsertTestBooking(DatabaseContext, testBooking);
 
+        // set the booking Id on the available time 
         firstAvailableTime.bookingId = bookingCreated.BookingId;
 
+        // update database with the available time. Which makes it taken by the created booking
         await TestDataInserter.UpdateAvailableBookingTimes(DatabaseContext, firstAvailableTime);
 
+        // get the booking from RFID-card
         var actual = await WashingMachineService.GetBookingConnectedToRfid(testRfidCard.RfidCardId, scannedTime);
         
         // Assert
@@ -65,9 +77,10 @@ public class WashingMachineServiceTests
     {
         // Arrange
         var testBooking = TestDataCreator.GetTestBooking();
+        // Insert a test booking to database
         var testBookingCreated = await TestDataInserter.InsertTestBooking(DatabaseContext, testBooking);
         
-        // Actual
+        // Actual the booking program
         var actual = await WashingMachineService.GetBookingProgram(testBookingCreated);
         
         // Assert
@@ -82,9 +95,10 @@ public class WashingMachineServiceTests
         // Arrange
         var rfidTest = TestDataCreator.GetTestRfidCard();
         
+        // insert a valid RFID-card
         await TestDataInserter.InsertTestRfidCard(DatabaseContext);
         
-        // Actual
+        // Actual get the RFID-card
         var actual = await WashingMachineService.RfidCardExists(rfidTest.RfidCardId);
 
         // Assert
@@ -96,11 +110,13 @@ public class WashingMachineServiceTests
     {
         // Arrange
         var rfidTest = TestDataCreator.GetTestRfidCard();
+        // RfidCardId that does not exists in the database
         rfidTest.RfidCardId = "does not exist";
         
+        // insert the correct RFID-Card
         await TestDataInserter.InsertTestRfidCard(DatabaseContext);
         
-        // Actual
+        // Actual check if the rfidCard exists
         var actual = await WashingMachineService.RfidCardExists(rfidTest.RfidCardId);
 
         // Assert
@@ -112,11 +128,13 @@ public class WashingMachineServiceTests
     {
         // Arrange
         var rfidTest = TestDataCreator.GetTestRfidCard();
+        // Empty RfidCardId to simulate that the user didnt parse the RFIDCard to the method
         rfidTest.RfidCardId = "";
         
+        // insert a valid RfidCard
         await TestDataInserter.InsertTestRfidCard(DatabaseContext);
         
-        // Actual
+        // Actual, check if rfidTest exists in the databae
         var actual =
             await Assert.ThrowsAsync<ArgumentException>(async () => await WashingMachineService.RfidCardExists(rfidTest.RfidCardId));
 

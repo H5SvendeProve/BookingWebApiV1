@@ -153,3 +153,13 @@ D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\7. Programs.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\8. MachinePrograms.sql
 D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\dbscripts\database\9. Bookings.sql
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.AspNetCore.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Formatting.Compact.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Settings.Configuration.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Sinks.Debug.dll
+D:\projects\H5SvendeProeve\BookingWebApiV1\BookingWebApiV1.Tests\bin\Debug\net6.0\Serilog.Sinks.File.dll

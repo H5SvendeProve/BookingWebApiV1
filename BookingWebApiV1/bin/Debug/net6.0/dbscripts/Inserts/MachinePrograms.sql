@@ -1,2 +1,2 @@
-exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'washer 2000', @ProgramName = N'Koge', @ProgramRunTimeMinutes = 180;
-exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'dryer 3000', @ProgramName = N'Tørt', @ProgramRunTimeMinutes = 180;
+exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'washer 2000', @ProgramId = 1;
+exec InsertMachineProgram @MachineManufacturer = N'Washmatic', @ModelName = N'dryer 3000', @ProgramId = 2;

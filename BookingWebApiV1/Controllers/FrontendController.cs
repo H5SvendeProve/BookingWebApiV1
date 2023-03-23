@@ -27,7 +27,7 @@ namespace BookingWebApiV1.Controllers
         public async Task<IActionResult> ValidateToken()
         {
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", string.Empty);
-            
+
 
             if (token.IsNullOrEmpty())
             {

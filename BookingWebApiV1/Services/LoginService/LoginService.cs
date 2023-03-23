@@ -40,7 +40,7 @@ public class LoginService : ILoginService
 
         if (userRequest.Username != potentialUser.Username)
         {
-            throw new NotFoundException($"user with username : {userRequest.Username} does not exist");
+            throw new NotFoundException($"Username or password is incorrect");
         }
         
         bool isPasswordMatch = false;

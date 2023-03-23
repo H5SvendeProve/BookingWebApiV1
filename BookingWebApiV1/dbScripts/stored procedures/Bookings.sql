@@ -33,7 +33,8 @@ begin
 select b.* from Bookings b
 inner join AvailableBookingTimes abt
 on b.BookingId = abt.BookingId
-inner join Users on b.Username = @Username
-where b.StartTime > GETDATE();
-end')
+inner join users u
+on b.Username = u.Username
+where u.Username = @Username and b.StartTime > GETDATE();
+end;')
 end

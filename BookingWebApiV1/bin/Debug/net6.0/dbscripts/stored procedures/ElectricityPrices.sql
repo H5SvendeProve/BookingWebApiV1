@@ -79,3 +79,26 @@ create procedure UpdateAvailableBookingTimesToBeAvailable
     end;')
 end
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DeleteElectricityPrice]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC(
+    'create procedure DeleteElectricityPrice
+
+    @DKKPerKWh FLOAT,
+    @EURPerKWh FLOAT,
+    @Exr FLOAT,
+    @TimeStart DATETIME,
+    @TimeEnd DATETIME,
+    @Location nvarchar(50)
+AS
+BEGIN
+
+
+	begin
+
+   delete from dbo.ElectricityPrices where Exr = @Exr and DKKPerKWh = @DKKPerKWh and EURPerKWh = @EURPerKWh and TimeStart = @TimeStart and TimeEnd = @TimeEnd and Location = @Location;
+
+	end;
+END;'
+);
+end

@@ -48,8 +48,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("VaskeriServerPolicy", corsPolicyBuilder =>
     {
-        // port 4200 is angular page
-        corsPolicyBuilder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+        // port 4200 is angular webapplikation
+        corsPolicyBuilder.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://192.168.1.2:4200", "http://192.168.1.2:4200")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -100,7 +100,6 @@ app.UseCors("VaskeriServerPolicy");
 app.UseSerilogRequestLogging();
 
 //app.UseHttpsRedirection();
-
 
 app.UseAuthentication();
 
